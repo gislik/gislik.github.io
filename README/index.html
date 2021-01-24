@@ -18,14 +18,13 @@
         })(window,document,'script','dataLayer','GTM-W95TH5W');</script>
         <!-- End Google Tag Manager -->
 
-        <meta property="og:title" content="Gísli | Readme" />
-        <meta property="og:description" content="My thoughts on blockchains and software" />
-        <meta name="description" content="My thoughts on blockchains and software" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@gislik" />
-        
         <meta property="og:site_name" content="Gísli | Readme" />
         <meta property="og:url" content="https://gisli.hamstur.is/README/" />
+        <meta property="og:title" content="Gísli | Readme" />
+        <meta property="og:description" content="My thoughts on blockchains and software" />
+        <meta name="description" content="My thoughts on blockchains and software" /><meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@gislik" />
+        
 
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="../css/base.css" />
@@ -67,12 +66,7 @@
         <article class="p-article">
 
     <header>
-        <h2 class="c-title c-article__title">README</h2>
-        <!-- 
-        <p class="c-article__meta">
-            <time datetime=""></time>
-        </p>
-        -->
+        <h2 class="c-title c-article__title">Readme</h2>
     </header>
 
     <section id="js-article" class="c-article__body">
@@ -94,16 +88,18 @@
 <pre><code>$ stack build</code></pre>
 <p>Stack will pull in all the dependencies specified in the <a href="blog.cabal">cabal</a> file, the correct version of `ghc, and build the compiler.</p>
 <h2 id="writing-content">Writing content</h2>
-<p>Pages and blogs are written in static Markdown like the <a href="about.md">About</a> page. Metadata can be placed in the front matter formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template.</p>
+<p>Pages and blogs are written in static Markdown like the <a href="about.md">About</a> page. Metadata can be placed in the front matter formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template. Page titles are either set explicity in the front matter or derived from the file name.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a>---</span>
 <span id="cb2-2"><a href="#cb2-2"></a>title: This is the blog title</span>
 <span id="cb2-3"><a href="#cb2-3"></a>tags: tag1, tag2</span>
-<span id="cb2-4"><a href="#cb2-4"></a>summary: |</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  Introduction to the blog content</span>
-<span id="cb2-6"><a href="#cb2-6"></a>---</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a>This is the blog body</span></code></pre></div>
-<p>Pages in the <code>blog</code> are considered to be blog posts which have additional features like pagination, categories and tags. Blog posts are ordered newest to oldest and each post’s date is extracted from the <code>date</code> field, the <code>published</code> field or from the a prefix of the filename. Tags are generated from the <code>tags</code> field in the metadata but categories are derived from the parent folder’s name.</p>
+<span id="cb2-4"><a href="#cb2-4"></a>image: /img/image.png</span>
+<span id="cb2-5"><a href="#cb2-5"></a>summary: |</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  Introduction to the blog content</span>
+<span id="cb2-7"><a href="#cb2-7"></a>---</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>This is the blog body</span></code></pre></div>
+<p>Pages in the <code>blog</code> directory are considered to be blog posts which have additional features like pagination, categories and tags. Blog posts are ordered newest to oldest and each post’s date is extracted from the <code>date</code> field, the <code>published</code> field or from the a prefix of the filename. Tags are generated from the <code>tags</code> field in the metadata but categories are derived from the parent folder’s name. When an <code>image</code> is specified it is used in Twitter summary cards.</p>
+<p>Summary is either set explicitly in the front matter, read from the content and upto the <code>&lt;!--more--&gt;</code> comment or derived from the first sentence.</p>
 <p>Some parts of the site are generated without an existing source using Hakyll combinators like the index page which lists a few of the latest blog.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>    route   <span class="op">$</span> idRoute</span>
@@ -134,43 +130,28 @@ For longer blog posts or pages it can be very convenient to include a table of c
 <span id="cb5-6"><a href="#cb5-6"></a></span>
 <span id="cb5-7"><a href="#cb5-7"></a>Rest of the deck</span></code></pre></div>
 <h2 id="editing-templates">Editing templates</h2>
-<p>Templates are found in the <code>templates</code> directory. The base layout is defined in <code>default.html</code> and its <span class="math inline"><em>b</em><em>o</em><em>d</em><em>y</em></span> variable is replaced by the previous step in the build pipeline. Other variables include:</p>
+<p>Templates are found in the <code>templates</code> directory. The base layout is defined in <code>default.html</code> and its <code>$page.body$</code> variable is replaced by the previous step in the build pipeline. Variables include:</p>
 <ul>
-<li><code>url</code> for the destination URL of the page</li>
-<li><code>path</code> for the original filepath of the page</li>
-<li><code>foo</code> where foo is specified in the metadata</li>
-<li><code>title</code> for the blog title</li>
+<li><code>page.body</code> for the content body</li>
+<li><code>page.url</code> for the destination URL of the page</li>
+<li><code>page.path</code> for the original filepath of the page</li>
+<li><code>page.foo</code> where foo is specified in the metadata</li>
 <li><code>page.title</code> for the page title</li>
 <li><code>polish(text)</code> to exchange certain words in the text for an emoji</li>
 </ul>
 <p>Blog lists has a <code>blogs</code> variable which can be iterated over and these additional variables:</p>
-<ul>
-<li><code>pages.first.number</code><br />
-</li>
-<li><code>pages.first.url</code><br />
-</li>
-<li><code>pages.next.number</code><br />
-</li>
-<li><code>pages.next.url</code><br />
-</li>
-<li><code>pages.previous.number</code></li>
-<li><code>pages.previous.url</code><br />
-</li>
-<li><code>pages.last.number</code><br />
-</li>
-<li><code>pages.last.url</code><br />
-</li>
-<li><code>pages.current.number</code></li>
-<li><code>pages.count</code></li>
-</ul>
+<p>-<code>pages.first.number</code> -<code>pages.first.url</code> -<code>pages.next.number</code> -<code>pages.next.url</code> -<code>pages.previous.number</code> -<code>pages.previous.url</code> -<code>pages.last.number</code> -<code>pages.last.url</code> -<code>pages.current.number</code> -<code>pages.count</code></p>
 <p>Single blog posts have these additions:</p>
 <ul>
-<li><code>category</code></li>
-<li><code>tags</code></li>
-<li><code>dages.next.url</code></li>
-<li><code>pages.previous.url</code></li>
-<li><code>summary</code></li>
-<li><code>reading.time</code></li>
+<li><code>blog.title</code></li>
+<li><code>blog.date</code></li>
+<li><code>blog.category</code></li>
+<li><code>blog.tags</code></li>
+<li><code>blog.image</code></li>
+<li><code>blog.next.url</code></li>
+<li><code>blog.previous.url</code></li>
+<li><code>blog.summary</code></li>
+<li><code>blog.reading.time</code></li>
 </ul>
 <p>Deck lists has a <code>decks</code> variable which is a list field and can be iterated over.</p>
 <p>Single decks have a <code>theme</code> variable.</p>
@@ -180,15 +161,6 @@ For longer blog posts or pages it can be very convenient to include a table of c
 <pre><code>$ ./build</code></pre>
 <p>When working on the content itself it is quite convenient to have a HTTP server which watches which files have been saved recently and compiles the website incrementally. There is also a script for that which binds the server to <code>http://localhost:8000</code>.</p>
 <pre><code>$ ./watch</code></pre>
-    </section>
-
-    <section>
-        <p>
-            
-            
-        </p>
-        <p>
-        </p>
     </section>
 
 </article>
