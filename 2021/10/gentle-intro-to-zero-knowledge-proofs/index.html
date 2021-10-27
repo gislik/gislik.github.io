@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" /> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+        <title>Gisli | A super gentle introduction to zero-knowledge proofs 🍄</title>
+
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-W95TH5W');</script>
+        <!-- End Google Tag Manager -->
+
+        <meta property="og:url" content="https://gisli.hamstur.is/2021/10/gentle-intro-to-zero-knowledge-proofs/" />
+        <meta property="og:site_name" content="Gísli | A super gentle introduction to zero-knowledge proofs 🍄" />
+        <meta property="og:title" content="Gísli | A super gentle introduction to zero-knowledge proofs 🍄" />
+        <meta property="og:description" content="<![CDATA[Once considered unrealistic moon math, zero-knowledge proofs, may hold the answer to some of the most pressing blockchain questions, like how will they scale and what about privacy? At the same time the zero-knwoledge proofs are extremely ill-understood and inaccessible to most people. The aim is to develop an intuition for them, explain in simple terms how they can be used in the context of blockchains, and get you excited about their seamingly endless utility.]]>" />
+        <meta name="description" content="<![CDATA[Once considered unrealistic moon math, zero-knowledge proofs, may hold the answer to some of the most pressing blockchain questions, like how will they scale and what about privacy? At the same time the zero-knwoledge proofs are extremely ill-understood and inaccessible to most people. The aim is to develop an intuition for them, explain in simple terms how they can be used in the context of blockchains, and get you excited about their seamingly endless utility.]]>" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@gislik" />
+        
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="../../../css/base.css" />
+        <link rel="stylesheet" href="../../../css/custom.css" />
+        <link rel="stylesheet" href="../../../css/syntax/kate.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Rock+Salt&display=swap" rel="stylesheet">
+        <link href="../../../css/fontawesome/fontawesome.css" rel="stylesheet">
+        <link href="../../../css/fontawesome/brands.css" rel="stylesheet">
+        <link href="../../../css/fontawesome/solid.css" rel="stylesheet">
+
+        <link rel="icon" type="image/x-icon" href="../../../icon48x48.png" />
+        <link rel="apple-touch-icon" sizes="48x48" href="../../../icon48x48.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../../icon72x72.png" />
+        <link rel="apple-touch-icon" sizes="96x96" href="../../../icon96x96.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../../icon144x144.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="../../../icon192x192.png" />
+        <!-- <link rel="apple-touch-icon" sizes="256x256" href="" /> -->
+        <!-- <link rel="apple-touch-icon" sizes="384x384" href="" /> -->
+        <!-- <link rel="apple-touch-icon" sizes="512x512" href="" /> -->
+
+        <link rel="alternate" type="application/atom+xml" title="A super gentle introduction to zero-knowledge proofs 🍄" href="../../../atom.xml">
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W95TH5W" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+        <a href="./#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        <header class="profile">
+            <a class="profile-icon" href="../../../">
+                <img src="../../../icon72x72.png" alt="profile picture">
+            </a>
+            <nav class="header">
+                <a href="../../../about/">About</a>
+                <a href="../../../decks/">Decks</a>
+            </nav>
+        </header>
+
+        <main id="main" class="l-main">
+        <article class="p-article">
+
+    <header>
+        <h2 class="c-title c-article__title">A super gentle introduction to zero-knowledge proofs 🍄</h2>
+        <p class="c-article__meta">
+            <time datetime="October 26, 2021">October 26, 2021</time>
+        </p>
+        <p class="c-article__meta">
+            5 min read
+        </p>
+    </header>
+
+    <section id="js-article" class="c-article__body">
+        <p>For close to four decades zero-knowledge proofs have existed in a theoretical vacuum but recent advancements in the field have made their application practical. A zero-knowledge proof is a mathematical proof with a few magical properties which can be used to perform <em>provable</em> private computation. For this reason it is plausible that zero-knowledge proofs are the key to <a href="../../../2021/01/the-holy-trinity/">The Holy Trinity</a> of blockchains; privacy, scalability and interoperability. Before we can understand how zero-knowledge proofs can be used to solve all these problems we need to understand what they are fundamentally. Simplified, they are a tool which a prover can use to convince a verifier that a statement is true while not revealing <em>how</em> it is true.</p>
+<blockquote>
+<p>“I am allowed to buy alcohol”</p>
+</blockquote>
+<p>To prove this statement you can show the verifier your government issued ID, containing your birthday, and the verifier then verifies whether you are 20 years or older. That is how the statement is true. Similarly using a zero-knowledge proof the verifier can verify the statement, this time however without knowing how old you are or any other information such as your name or gender.</p>
+<p>To gain an intuition how such a magical proof could be created let’s imagine that you have broken a hash function, <span class="math inline"><em>f</em>(<em>x</em>)</span>, by finding its inverse function<a href="./#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, <span class="math inline"><em>f</em><sup> − 1</sup>(<em>y</em>)</span>. To prove to someone that you have actually broken the hash function you could either present the inverse function for anyone to verify or you could keep it a secret and instead ask the verifier to give you a random number, <span class="math inline"><em>r</em></span>. You would then calculate its pre-image <span class="math inline"><em>s</em> = <em>f</em><sup> − 1</sup>(<em>r</em>)</span> which the verifier is then able to verify that <span class="math inline"><em>f</em>(<em>s</em>) = <em>r</em></span>. Doing this interaction with a single random number may not be able to fully convince the verifier because you may have cheated by hashing a range of numbers and with some likelihood the verifier will have chosen a random number which matches one of those hashes, without you knowing the inverse function. By repeating the process however, with random numbers <span class="math inline"><em>r</em><sub>0</sub>, <em>r</em><sub>1</sub>, …, <em>r</em><sub><em>n</em></sub></span>, the verifier can be convinced with a arbitrary high degree of confidence that you have actually broken the hash function. Now we have the tools to convince a single verifier but a second verifier watching this interactive game play out may not be convinced because you and the original verifier may be colluding by using predetermined numbers <span class="math inline"><em>r</em><sub>0</sub>, <em>r</em><sub>1</sub>, …, <em>r</em><sub><em>n</em></sub></span>. Fortunately it is possible to convert the interactive proof into a non-interactive proof by hashing certain publicly available data and use it instead of the random numbers from the verifier<a href="./#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. This is a pre-requisite for blockchains as we need to be able to prove once and multiple nodes need to be able to verify based on only on the data in the blockchain.</p>
+<p>With this background let’s see how we can use zero-knowledge proofs to solve the three issues which are hindering mainstream adoption of blockchains.</p>
+<h1 id="scalability">Scalability 🧑‍🚀</h1>
+<p>Blockchains are slow by design because every node in the network has to validate all blocks and transactions. This becomes even more of an issue when the blockchain supports, in addition to the predetermined consensus logic, arbitrary computation where all the nodes must perform the computation to be able to determine the validity of the transactions. To understand the implications, let us put this in another context. Imagine that the task is to sum all the integers between zero and a hundred trillion. To expedite the process, traditional systems will divide the range into, for example, ten smaller ranges and distribute them to ten other computers to be summed in parallel. The final sum is calculated by summing all the subtotals. In contrast, a blockchain will send the full range, from zero to a hundred trillion, and have all the ten computers calculate the sum simultaneously. This is naturally a much a much slower method to do the same calculation but it is much more resilient to calculations errors. For blockchains resiliency is more important than efficiency.</p>
+<blockquote>
+<p>“I have applied the following transactions to the current state and the resulting state is valid according to the consensus rules”</p>
+</blockquote>
+<p>Using zero-knowledge proofs in the blockchain model we can compress computation into a single step to get the best of both worlds, a resilient and efficient computation network. The miner, as the prover, can perform the computation needed to validate a block once and include a succinct validity proof with the resulting state. Subsequently, other nodes simply verify the constant-size proof and apply the state without needing to perform the computation themselves. With such a capability light clients, which can run inside a browsers, on mobile phones with limited computing resources, and inside a smart contact, could simply download the state, or the relevant parts of it, and start using it after verifying a simple zero knowledge proof.</p>
+<h1 id="privacy">Privacy 🛩</h1>
+<p>In their current form blockchains expose the sender address, the receiver address, the token and the amount in clear-text so other nodes can validate that the consensus rules are upheld. Using zero-knowledge proofs we can design cryptographic systems which also preserve the privacy of a blockchain. Homomorphic encryption makes arithmetic over encrypted values possible and can be used to hide the amount. Nevertheless, it is critical that transactions with blinded amounts must not change the total supply of the token. For UTXO-based blockchains, this would mean that all the inputs of a transaction must be equal to its outputs. Without knowing anything about the values in the transaction it becomes possible to create new coins whilst upholding this equality by going into negative numbers. Let’s say that you have two coins in your digital wallet which sum is 10. By exchanging those for two other coins where one has a negative value you now have more than 10.</p>
+<p>$$ 4x + 6x = 10x = 10y = -20y + 30y $$</p>
+<p>The inputs, <span class="math inline"><em>x</em></span>, and outputs, <span class="math inline"><em>y</em></span>, are equal but you now have a coin in your wallet which value is 30. Using zero-knowledge proofs you can prove that all the blinded amounts are non-negative and therefore no extra coins have been created by the transaction. Other techniques can be used to blind the addresses and which token is being transacted with to get full privacy.</p>
+<h1 id="interoperability">Interoperability 📡</h1>
+<p>For one blockchain to be able to talk to another it must be able to understand what is happening on that chain, i.e. understand its consensus rules. For example, one way to perform a trustless auction of an NFT on Ethereum for bitcoin on the Bitcoin network, is to place the NFT<a href="./#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> into an escrow contract which automatically releases the NFT to the buyer’s address on Ethereum upon receiving a proof that a minimum amount of bitcoins have been sent to an address, belonging to the seller, on the Bitcoin network. Ethereum is expressive enough and Bitcoin’s consensus rules are simple enough to run a Bitcoin SPV client directly on the EVM<a href="./#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. However communicating in the other direction is impossible because of the limited functionality of the Bitcoin network, which would need to embed the EVM to validate Ethereum transactions, which is unlikely to happen. Furthermore, new sets of primitives, and possibly new virtual machines, would be required for each interoperating blockchain. Alternatively, zero-knowledge proofs can be used as an interoperability construct between arbitrary blockchains. Instead of requiring the target chain to understand the consensus rules of the source chain, it would simply need to be able to validate a short zero-knowledge proof. That is scalable and much likelier to happen.</p>
+<h2>
+<center>
+Take away
+</center>
+</h2>
+<p>Zero-knowledge proofs, once considered unrealistic moon math<a href="./#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, are one of the most exciting fields in cryptography today and their potential in the context of blockchains is enormous. Although it is still early days, this technology is fast becoming a crucial component of the $2.5 trillion blockchain ecosystem. At the very least, we now have a credible answer to crypto’s most pressing issues.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>A key property of a hash function is that its inverse function, which may exists but must not be known.<a href="./#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>The <a href="https://en.wikipedia.org/wiki/Fiat%E2%80%93Shamir_heuristic">Fiat–Shamir heuristic</a> is a technique for taking an interactive proof of knowledge and creating a digital signature based on it. More generally, the Fiat–Shamir heuristic may also be viewed as converting a public-coin interactive proof of knowledge into a non-interactive proof of knowledge.<a href="./#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Non-Fungible Tokens (NFT) are a method to represent ownership of digital objects.<a href="./#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>The world’s first <a href="https://medium.com/summa-technology/cross-chain-auction-technical-f16710bfe69f">cross-chain auction</a> was conducted on November 15, 2018 using this exact method.<a href="./#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Zero knowledge proofs are quite complex and until recently they were often referred to as “moon math”.<a href="./#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+    </section>
+
+    <section>
+        <p>
+            @<a href="../../../crypto/">crypto</a> 
+            #<a href="../../../tags/zpk/">zpk</a> 
+        </p>
+        <p>
+        </p>
+    </section>
+
+    <footer>
+        <nav class="c-pagination p-pagination">
+            <div class="c-pagination__ctrl">
+                <div class="c-pagination__newer">
+                    
+                </div>
+                <div class="c-pagination__older">
+                    <a href="../../../2021/01/the-holy-trinity/">Older</a>
+                    
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+</article>
+
+        </main>
+     
+        <footer class="l-footer">
+            <p class="p-copyright">
+                Copyright <i class="fas fa-heart" style="color: red;"></i> Gísli Kristjánsson 2021
+            </p>
+        </footer>
+
+        <link rel="stylesheet" href="../../../katex/katex.min.css">
+        <script defer src="../../../katex/katex.min.js"></script>
+        <script type="text/javascript" script defer src="../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    </body>
+</html>
+            

@@ -8,8 +8,16 @@
         <name>Gísli Kristjánsson</name>
         <email>gislik@hamstur.is</email>
     </author>
-    <updated>2021-01-23T00:00:00Z</updated>
+    <updated>2021-10-26T00:00:00Z</updated>
     <entry>
+    <title><![CDATA[A super gentle introduction to zero-knowledge proofs 🍄]]></title>
+    <link href="https://gisli.hamstur.is/2021/10/gentle-intro-to-zero-knowledge-proofs/" />
+    <id>https://gisli.hamstur.is/2021/10/gentle-intro-to-zero-knowledge-proofs/</id>
+    <published>2021-10-26T00:00:00Z</published>
+    <updated>2021-10-26T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Once considered unrealistic moon math, zero-knowledge proofs, may hold the answer to some of the most pressing blockchain questions, like how will they scale and what about privacy? At the same time the zero-knwoledge proofs are extremely ill-understood and inaccessible to most people. The aim is to develop an intuition for them, explain in simple terms how they can be used in the context of blockchains, and get you excited about their seamingly endless utility.]]></summary>
+</entry>
+<entry>
     <title><![CDATA[The Holy Trinity]]></title>
     <link href="https://gisli.hamstur.is/2021/01/the-holy-trinity/" />
     <id>https://gisli.hamstur.is/2021/01/the-holy-trinity/</id>
