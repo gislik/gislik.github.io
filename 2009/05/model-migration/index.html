@@ -88,36 +88,36 @@ I can recommend the <a href="http://www.longtailvideo.com/">LongTail</a> FLV vid
 <p>
 What exactly is model migration? Well, when you model your data you come up with something like this:
 </p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1"></a><span class="kw">data</span> <span class="dt">Photo</span> <span class="ot">=</span> <span class="dt">Photo</span> {<span class="ot"> photoName          ::</span> <span class="dt">String</span></span>
-<span id="cb1-2"><a href="./#cb1-2"></a>                   ,<span class="ot"> photoText          ::</span> <span class="dt">String</span></span>
-<span id="cb1-3"><a href="./#cb1-3"></a>                   ,<span class="ot"> photoDate          ::</span> <span class="dt">AppDate</span></span>
-<span id="cb1-4"><a href="./#cb1-4"></a>                   ,<span class="ot"> photoCategory      ::</span> <span class="dt">Maybe</span> <span class="dt">CategoryID</span></span>
-<span id="cb1-5"><a href="./#cb1-5"></a>                   ,<span class="ot"> photoCategoryCover ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb1-6"><a href="./#cb1-6"></a>                   ,<span class="ot"> photoCover         ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb1-7"><a href="./#cb1-7"></a>                   ,<span class="ot"> photoSeriesCover   ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb1-8"><a href="./#cb1-8"></a>                   ,<span class="ot"> photoOrder         ::</span> <span class="dt">Int</span></span>
-<span id="cb1-9"><a href="./#cb1-9"></a>                   ,<span class="ot"> photoCategoryOrder ::</span> <span class="dt">Int</span></span>
-<span id="cb1-10"><a href="./#cb1-10"></a>                   ,<span class="ot"> photoSeriesOrder   ::</span> <span class="dt">Int</span> <span class="co">-- Calculated</span></span>
-<span id="cb1-11"><a href="./#cb1-11"></a>                   ,<span class="ot"> photoCreated       ::</span> <span class="dt">AppDate</span></span>
-<span id="cb1-12"><a href="./#cb1-12"></a>                   ,<span class="ot"> photoModified      ::</span> <span class="dt">Maybe</span> <span class="dt">AppDate</span></span>
-<span id="cb1-13"><a href="./#cb1-13"></a>                   } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Data</span>, <span class="dt">Typeable</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Photo</span> <span class="ot">=</span> <span class="dt">Photo</span> {<span class="ot"> photoName          ::</span> <span class="dt">String</span></span>
+<span id="cb1-2"><a href="./#cb1-2" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoText          ::</span> <span class="dt">String</span></span>
+<span id="cb1-3"><a href="./#cb1-3" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoDate          ::</span> <span class="dt">AppDate</span></span>
+<span id="cb1-4"><a href="./#cb1-4" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategory      ::</span> <span class="dt">Maybe</span> <span class="dt">CategoryID</span></span>
+<span id="cb1-5"><a href="./#cb1-5" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategoryCover ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb1-6"><a href="./#cb1-6" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCover         ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb1-7"><a href="./#cb1-7" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoSeriesCover   ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb1-8"><a href="./#cb1-8" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoOrder         ::</span> <span class="dt">Int</span></span>
+<span id="cb1-9"><a href="./#cb1-9" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategoryOrder ::</span> <span class="dt">Int</span></span>
+<span id="cb1-10"><a href="./#cb1-10" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoSeriesOrder   ::</span> <span class="dt">Int</span> <span class="co">-- Calculated</span></span>
+<span id="cb1-11"><a href="./#cb1-11" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCreated       ::</span> <span class="dt">AppDate</span></span>
+<span id="cb1-12"><a href="./#cb1-12" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoModified      ::</span> <span class="dt">Maybe</span> <span class="dt">AppDate</span></span>
+<span id="cb1-13"><a href="./#cb1-13" aria-hidden="true" tabindex="-1"></a>                   } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Data</span>, <span class="dt">Typeable</span>)</span></code></pre></div>
 <p>
 When you start to use your model HAppS records your data into this structure in a binary form. Now let’s say that you need to add a field for the name of the video to be played instead of showing the picture you get something like this:
 </p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="./#cb2-1"></a><span class="kw">data</span> <span class="dt">Photo</span> <span class="ot">=</span> <span class="dt">Photo</span> {<span class="ot"> photoName          ::</span> <span class="dt">String</span></span>
-<span id="cb2-2"><a href="./#cb2-2"></a>                   ,<span class="ot"> photoText          ::</span> <span class="dt">String</span></span>
-<span id="cb2-3"><a href="./#cb2-3"></a>                   ,<span class="ot"> photoDate          ::</span> <span class="dt">AppDate</span></span>
-<span id="cb2-4"><a href="./#cb2-4"></a>                   ,<span class="ot"> photoCategory      ::</span> <span class="dt">Maybe</span> <span class="dt">CategoryID</span></span>
-<span id="cb2-5"><a href="./#cb2-5"></a>                   ,<span class="ot"> photoCategoryCover ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb2-6"><a href="./#cb2-6"></a>                   ,<span class="ot"> photoCover         ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb2-7"><a href="./#cb2-7"></a>                   ,<span class="ot"> photoSeriesCover   ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
-<span id="cb2-8"><a href="./#cb2-8"></a>                   ,<span class="ot"> photoOrder         ::</span> <span class="dt">Int</span></span>
-<span id="cb2-9"><a href="./#cb2-9"></a>                   ,<span class="ot"> photoCategoryOrder ::</span> <span class="dt">Int</span></span>
-<span id="cb2-10"><a href="./#cb2-10"></a>                   ,<span class="ot"> photoSeriesOrder   ::</span> <span class="dt">Int</span> <span class="co">-- Calculated</span></span>
-<span id="cb2-11"><a href="./#cb2-11"></a>                   ,<span class="ot"> photoVideo         ::</span> <span class="dt">Maybe</span> <span class="dt">String</span> <span class="co">-- THE ONLY DIFFERENCE!</span></span>
-<span id="cb2-12"><a href="./#cb2-12"></a>                   ,<span class="ot"> photoCreated       ::</span> <span class="dt">AppDate</span></span>
-<span id="cb2-13"><a href="./#cb2-13"></a>                   ,<span class="ot"> photoModified      ::</span> <span class="dt">Maybe</span> <span class="dt">AppDate</span></span>
-<span id="cb2-14"><a href="./#cb2-14"></a>                   } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Data</span>, <span class="dt">Typeable</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="./#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Photo</span> <span class="ot">=</span> <span class="dt">Photo</span> {<span class="ot"> photoName          ::</span> <span class="dt">String</span></span>
+<span id="cb2-2"><a href="./#cb2-2" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoText          ::</span> <span class="dt">String</span></span>
+<span id="cb2-3"><a href="./#cb2-3" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoDate          ::</span> <span class="dt">AppDate</span></span>
+<span id="cb2-4"><a href="./#cb2-4" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategory      ::</span> <span class="dt">Maybe</span> <span class="dt">CategoryID</span></span>
+<span id="cb2-5"><a href="./#cb2-5" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategoryCover ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb2-6"><a href="./#cb2-6" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCover         ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb2-7"><a href="./#cb2-7" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoSeriesCover   ::</span> <span class="dt">Bool</span> <span class="co">-- Calculated</span></span>
+<span id="cb2-8"><a href="./#cb2-8" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoOrder         ::</span> <span class="dt">Int</span></span>
+<span id="cb2-9"><a href="./#cb2-9" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCategoryOrder ::</span> <span class="dt">Int</span></span>
+<span id="cb2-10"><a href="./#cb2-10" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoSeriesOrder   ::</span> <span class="dt">Int</span> <span class="co">-- Calculated</span></span>
+<span id="cb2-11"><a href="./#cb2-11" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoVideo         ::</span> <span class="dt">Maybe</span> <span class="dt">String</span> <span class="co">-- THE ONLY DIFFERENCE!</span></span>
+<span id="cb2-12"><a href="./#cb2-12" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoCreated       ::</span> <span class="dt">AppDate</span></span>
+<span id="cb2-13"><a href="./#cb2-13" aria-hidden="true" tabindex="-1"></a>                   ,<span class="ot"> photoModified      ::</span> <span class="dt">Maybe</span> <span class="dt">AppDate</span></span>
+<span id="cb2-14"><a href="./#cb2-14" aria-hidden="true" tabindex="-1"></a>                   } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Data</span>, <span class="dt">Typeable</span>)</span></code></pre></div>
 <p>
 Notice that I’ve only added the <em>photoVideo</em> field. The problem is however that when HAppS tries to read in the old structure it does not know how to map it to the new structure (model). That’s when you need to worry about model migration.
 </p>

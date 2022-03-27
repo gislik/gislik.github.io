@@ -92,9 +92,9 @@ $ cabal update          [2]</code></pre>
 </blockquote>
 <p><del>Under normal circumstances we would be able to add Haskoin as a dependency in our <code>.cabal</code> file but since Haskoin depends on the <code>C</code> <code>icu</code> library which is sometimes installed outside the default <code>C</code> library locations (like <code>/usr/local/opt</code>) we either need to include the library location in the <code>.cabal</code> file or install the library manually with the extra command line parameters <code>--extra-include-dirs</code> and <code>--extra-lib-dirs</code>.</del></p>
 <p><del>On an <em>OS X</em> it is easiest to install the library using <code>brew</code> but please refer to the <a href="http://site.icu-project.org/download/"><em>icu download page</em></a> for installation instructions for your operating system of choice.</del></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh strikethrough"><code class="sourceCode bash"><span id="cb2-1"><a href="./#cb2-1"></a>$ <span class="ex">brew</span> install icu4c</span>
-<span id="cb2-2"><a href="./#cb2-2"></a>$ <span class="ex">cabal</span> install --extra-include-dirs=/usr/local/opt/icu4c/include \</span>
-<span id="cb2-3"><a href="./#cb2-3"></a>                --extra-lib-dirs=/usr/local/opt/icu4c/lib text-icu</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh strikethrough"><code class="sourceCode bash"><span id="cb2-1"><a href="./#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> brew install icu4c</span>
+<span id="cb2-2"><a href="./#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cabal install <span class="at">--extra-include-dirs</span><span class="op">=</span>/usr/local/opt/icu4c/include <span class="dt">\</span></span>
+<span id="cb2-3"><a href="./#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">--extra-lib-dirs</span><span class="op">=</span>/usr/local/opt/icu4c/lib text-icu</span></code></pre></div>
 <p>Next we cabalize our <code>test-haskell</code> project.</p>
 <pre><code>$ cabal init</code></pre>
 <p>This takes us to a project wizard. Answering the questions is relatively straight forward. The resulting project file — <code>test-haskell.cabal</code> — describes the project and its dependencies.</p>
@@ -103,10 +103,10 @@ $ cabal update          [2]</code></pre>
 <p>Uncomment the following line by removing the two dashes.</p>
 <pre><code>-- main-is:         Main.hs</code></pre>
 <p>Make sure that <em>Main.hs</em> exists with this content.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="./#cb6-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb6-2"><a href="./#cb6-2"></a></span>
-<span id="cb6-3"><a href="./#cb6-3"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb6-4"><a href="./#cb6-4"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;If this prints we're all done :)&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="./#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
+<span id="cb6-2"><a href="./#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="./#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb6-4"><a href="./#cb6-4" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;If this prints we're all done :)&quot;</span></span></code></pre></div>
 <p>The last step is to install the dependencies, compile the project and hopefully see our achievement printed to <code>stdout</code>.</p>
 <pre><code>$ cabal configure
 $ cabal install --dependencies-only

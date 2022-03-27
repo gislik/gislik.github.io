@@ -90,46 +90,46 @@
 <p>Stack will pull in all the dependencies specified in the <a href="blog.cabal">cabal</a> file, the correct version of `ghc, and build the compiler.</p>
 <h2 id="writing-content">Writing content</h2>
 <p>Pages and blogs are written in static Markdown like the <a href="about.md">About</a> page. Metadata can be placed in the front matter formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template. Page titles are either set explicity in the front matter or derived from the file name.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a>---</span>
-<span id="cb2-2"><a href="#cb2-2"></a>title: This is the blog title</span>
-<span id="cb2-3"><a href="#cb2-3"></a>tags: tag1, tag2</span>
-<span id="cb2-4"><a href="#cb2-4"></a>image: /img/image.png</span>
-<span id="cb2-5"><a href="#cb2-5"></a>summary: |</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  Introduction to the blog content</span>
-<span id="cb2-7"><a href="#cb2-7"></a>---</span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a>This is the blog body</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> This is the blog title</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> tag1, tag2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> /img/image.png</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="an">summary:</span><span class="co"> |</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Introduction to the blog content</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>This is the blog body</span></code></pre></div>
 <p>Pages in the <code>blog</code> directory are considered to be blog posts which have additional features like pagination, categories and tags. Blog posts are ordered newest to oldest and each post’s date is extracted from the <code>date</code> field, the <code>published</code> field or from the a prefix of the filename. Tags are generated from the <code>tags</code> field in the metadata but categories are derived from the parent folder’s name. When an <code>image</code> is specified it is used in Twitter summary cards.</p>
 <p>Summary is either set explicitly in the front matter, read from the content and upto the <code>&lt;!--more--&gt;</code> comment or derived from the first sentence. Summaryr set in the front matter is used as the description for Twitter summary cards.</p>
 <p>Some parts of the site are generated without an existing source using Hakyll combinators like the index page which lists a few of the latest blog.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    route   <span class="op">$</span> idRoute</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    compile <span class="op">$</span> makeItem <span class="st">&quot;&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx <span class="dv">1</span> pages categories tags)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx </span>
-<span id="cb3-6"><a href="#cb3-6"></a>      <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb3-7"><a href="#cb3-7"></a>      <span class="op">&gt;&gt;=</span> relativizeUrls</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    route   <span class="op">$</span> idRoute</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    compile <span class="op">$</span> makeItem <span class="st">&quot;&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx <span class="dv">1</span> pages categories tags)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> indexCompiler</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> relativizeUrls</span></code></pre></div>
 <h3 id="generating-table-of-contents">Generating table of contents</h3>
 For longer blog posts or pages it can be very convenient to include a table of contains. This is simply achieved by defining the <code>withtoc</code> field in the metadata. The compiler now uses <code>&lt;h1&gt;&lt;/h1&gt;</code> and `
 <h2>
 </h2>
 <p>’ tags as the table entries.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a>---</span>
-<span id="cb4-2"><a href="#cb4-2"></a>title: This is a long blog post</span>
-<span id="cb4-3"><a href="#cb4-3"></a>withtoc: true</span>
-<span id="cb4-4"><a href="#cb4-4"></a>---</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> This is a long blog post</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">withtoc:</span><span class="co"> true</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
 <h3 id="writing-math-equations">Writing math equations</h3>
 <p>Math equations can be written in LaTeX and enclosed in double dollar signs. The equations are rendered by <a href="https://katex.org/">KaTeX</a>.</p>
-<p><br /><span class="math display">$$ \ln x = \int_{-\infty}^x \frac 1 y \, dy  $$</span><br /></p>
+<p><span class="math display">$$ \ln x = \int_{-\infty}^x \frac 1 y \, dy  $$</span></p>
 <h3 id="decks">Decks</h3>
 <p>Decks and presentations are created in a similar fashion to blog files but placed in the <code>decks</code> directory instead. Decks either contain embedded presentation such as Google Slides or marked up and rendered by <a href="https://revealjs.com/">reveal.js</a>. To enable reveal.js in a presentation the <code>reveal</code> key has to be defined. Optionally a <code>theme</code> key controls which theme should be used to render the presentation.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1"></a>---</span>
-<span id="cb5-2"><a href="#cb5-2"></a>reveal: true</span>
-<span id="cb5-3"><a href="#cb5-3"></a>theme: league</span>
-<span id="cb5-4"><a href="#cb5-4"></a>featureimage: 2014/06/bitcoin.png</span>
-<span id="cb5-5"><a href="#cb5-5"></a>---</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>Rest of the deck</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">reveal:</span><span class="co"> true</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">theme:</span><span class="co"> league</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">featureimage:</span><span class="co"> 2014/06/bitcoin.png</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Rest of the deck</span></code></pre></div>
 <h2 id="editing-templates">Editing templates</h2>
 <p>Templates are found in the <code>templates</code> directory. The base layout is defined in <code>default.html</code> and its <code>$page.body$</code> variable is replaced by the previous step in the build pipeline. Variables include:</p>
 <ul>

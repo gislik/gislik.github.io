@@ -119,18 +119,18 @@ Well this sounds almost too easy. And it is. I alway got the error <code>Unsuppo
 <div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1"></a><span class="co">-- | alternative implementation of accept to work around EAI_AGAIN errors </span></span>
-<span id="cb1-2"><a href="./#cb1-2"></a><span class="ot">acceptLite ::</span> <span class="dt">S.Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Handle</span>, <span class="dt">S.HostName</span>, <span class="dt">S.PortNumber</span>) </span>
-<span id="cb1-3"><a href="./#cb1-3"></a>acceptLite sock <span class="ot">=</span> <span class="kw">do</span> </span>
-<span id="cb1-4"><a href="./#cb1-4"></a>  (sock', addr) <span class="ot">&lt;-</span> S.accept sock </span>
-<span id="cb1-5"><a href="./#cb1-5"></a>  h <span class="ot">&lt;-</span> S.socketToHandle sock' <span class="dt">ReadWriteMode</span> </span>
-<span id="cb1-6"><a href="./#cb1-6"></a>  (<span class="dt">N.PortNumber</span> p) <span class="ot">&lt;-</span> N.socketPort sock' </span>
-<span id="cb1-7"><a href="./#cb1-7"></a></span>
-<span id="cb1-8"><a href="./#cb1-8"></a>  <span class="kw">let</span> peer <span class="ot">=</span> <span class="kw">case</span> addr <span class="kw">of</span> </span>
-<span id="cb1-9"><a href="./#cb1-9"></a>               (<span class="dt">S.SockAddrInet</span> _ ha)      showHostAddress ha </span>
-<span id="cb1-10"><a href="./#cb1-10"></a>               (<span class="dt">S.SockAddrInet6</span> _ _ ha _) showHostAddress6 ha </span>
-<span id="cb1-11"><a href="./#cb1-11"></a>               _                          <span class="fu">error</span> <span class="st">&quot;Unsupported socket&quot;</span></span>
-<span id="cb1-12"><a href="./#cb1-12"></a>  <span class="fu">return</span> (h, peer, p) </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- | alternative implementation of accept to work around EAI_AGAIN errors </span></span>
+<span id="cb1-2"><a href="./#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">acceptLite ::</span> <span class="dt">S.Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Handle</span>, <span class="dt">S.HostName</span>, <span class="dt">S.PortNumber</span>) </span>
+<span id="cb1-3"><a href="./#cb1-3" aria-hidden="true" tabindex="-1"></a>acceptLite sock <span class="ot">=</span> <span class="kw">do</span> </span>
+<span id="cb1-4"><a href="./#cb1-4" aria-hidden="true" tabindex="-1"></a>  (sock', addr) <span class="ot">&lt;-</span> S.accept sock </span>
+<span id="cb1-5"><a href="./#cb1-5" aria-hidden="true" tabindex="-1"></a>  h <span class="ot">&lt;-</span> S.socketToHandle sock' <span class="dt">ReadWriteMode</span> </span>
+<span id="cb1-6"><a href="./#cb1-6" aria-hidden="true" tabindex="-1"></a>  (<span class="dt">N.PortNumber</span> p) <span class="ot">&lt;-</span> N.socketPort sock' </span>
+<span id="cb1-7"><a href="./#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="./#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> peer <span class="ot">=</span> <span class="kw">case</span> addr <span class="kw">of</span> </span>
+<span id="cb1-9"><a href="./#cb1-9" aria-hidden="true" tabindex="-1"></a>               (<span class="dt">S.SockAddrInet</span> _ ha)      showHostAddress ha </span>
+<span id="cb1-10"><a href="./#cb1-10" aria-hidden="true" tabindex="-1"></a>               (<span class="dt">S.SockAddrInet6</span> _ _ ha _) showHostAddress6 ha </span>
+<span id="cb1-11"><a href="./#cb1-11" aria-hidden="true" tabindex="-1"></a>               _                          <span class="fu">error</span> <span class="st">&quot;Unsupported socket&quot;</span></span>
+<span id="cb1-12"><a href="./#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (h, peer, p) </span></code></pre></div>
 <p>
 Actually I used the time to cabalize my code. Outlining the dependencies means that <em><a href="http://www.haskell.org/cabal">Cabal</a></em> takes care of downloading all the necessary packages. To date my cabal file looks like this:
 </p>
@@ -155,13 +155,13 @@ Also having everything in a <a href="http://git-scm.com/">git</a> repository me
 <p>
 This:
 </p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="./#cb3-1"></a><span class="ot">uriRest ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ServerPartT</span> m a) <span class="ot">-&gt;</span> <span class="dt">ServerPartT</span> m a</span>
-<span id="cb3-2"><a href="./#cb3-2"></a>uriRest handle <span class="ot">=</span> withRequest <span class="op">$</span> \rq <span class="ot">-&gt;</span> unServerPartT (handle (rqURL rq)) rq</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="./#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">uriRest ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">ServerPartT</span> m a) <span class="ot">-&gt;</span> <span class="dt">ServerPartT</span> m a</span>
+<span id="cb3-2"><a href="./#cb3-2" aria-hidden="true" tabindex="-1"></a>uriRest handle <span class="ot">=</span> withRequest <span class="op">$</span> \rq <span class="ot">-&gt;</span> unServerPartT (handle (rqURL rq)) rq</span></code></pre></div>
 <p>
 Becomes this:
 </p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="./#cb4-1"></a><span class="ot">    uriRest ::</span> (<span class="dt">ServerMonad</span> m, <span class="dt">Monad</span> m) <span class="ot">=&gt;</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> m a) <span class="ot">-&gt;</span> m a</span>
-<span id="cb4-2"><a href="./#cb4-2"></a>    uriRest handle <span class="ot">=</span> askRq <span class="op">&gt;&gt;=</span> handle <span class="op">.</span> rqURL</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="./#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">    uriRest ::</span> (<span class="dt">ServerMonad</span> m, <span class="dt">Monad</span> m) <span class="ot">=&gt;</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> m a) <span class="ot">-&gt;</span> m a</span>
+<span id="cb4-2"><a href="./#cb4-2" aria-hidden="true" tabindex="-1"></a>    uriRest handle <span class="ot">=</span> askRq <span class="op">&gt;&gt;=</span> handle <span class="op">.</span> rqURL</span></code></pre></div>
 <p>
 That’s it for now.
 </p>

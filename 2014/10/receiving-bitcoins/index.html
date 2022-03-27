@@ -85,7 +85,7 @@
 <li><a href="./#receiving-satoshis-to-our-wallet"><span class="toc-section-number">5</span> Receiving satoshis to our wallet</a></li>
 <li><a href="./#bitcoin-scripts"><span class="toc-section-number">6</span> Bitcoin scripts</a></li>
 <li><a href="./#handing-control-over-funds-to-another-wallet"><span class="toc-section-number">7</span> Handing control over funds to another wallet</a></li>
-</ul></div><h1 id="testnet"><span class="header-section-number">1</span> Testnet</h1>
+</ul></div><h1 data-number="1" id="testnet"><span class="header-section-number">1</span> Testnet</h1>
 <p>Some of you might be aware of the “other” Bitcoin blockchain — <em>testnet3</em> — which is mined in parallel to the main blockchain — <em>mainnet</em> — and since coins on testnet are entirely worthless we can develop safely without our mistakes being too costly.</p>
 <blockquote>
 <p>Testnet coins are worthless - but useful. They are useful because they are worthless.</p>
@@ -103,7 +103,7 @@
 <p>To access testnet we launch bitcoind or Bitcoin-Qt with <code>-testnet</code> as a command line parameter and a green splash screen is presented (as opposed to the normal orange) to remind us that we’re on the testnet blockchain. If you want to make this a permanent change add <code>testnet=1</code> to your <code>bitcoin.conf</code> file.</p>
 <p>Since there are not that many peers running constantly on the testnet peer discovery can be somewhat tricky. A standard trick is to use <code>-addnode</code> to seed our peer connections with a known peer who can notify us about other peers. The commercial version of <a href="http://haskoin.com">Haskoin</a> runs both an official mainnet and testnet nodes on ports 8333 and 18333, respectively.</p>
 <pre><code>$ ./Bitcoin-Qt -testnet -addnode=haskoin.com</code></pre>
-<h1 id="keys-addresses-and-transactions"><span class="header-section-number">2</span> keys, addresses and transactions</h1>
+<h1 data-number="2" id="keys-addresses-and-transactions"><span class="header-section-number">2</span> keys, addresses and transactions</h1>
 <p>Bitcoin addresses are used to receive bitcoins but it is important to understand that the coins — a.k.a. <em>satoshis</em> — are neither stored in that address nor are they stored in the recipient’s wallet. When Alice wants to send Bob satoshis she or her wallet on her behalf will construct a transaction and broadcast it to the peer network. If the transaction is valid it will included in the blockchain.</p>
 <p>Alice’s transaction will include:</p>
 <ul>
@@ -117,7 +117,7 @@
 <blockquote>
 <p>Seen in this light the blockchain is simply a journal of transactions — crediting a prior transaction and debiting an address — which allows satoshis to be spent by adding a new transaction to the journal and providing a signature proving the ownership of the referred address.</p>
 </blockquote>
-<h1 id="base58check-and-wallet-import-format-wif"><span class="header-section-number">3</span> Base58Check and Wallet Import Format (WIF)</h1>
+<h1 data-number="3" id="base58check-and-wallet-import-format-wif"><span class="header-section-number">3</span> Base58Check and Wallet Import Format (WIF)</h1>
 <p>The private keys are 256 bit binary blobs which can be hard to move reliably between devices. Bitcoin uses a modified version of Base 58, called Base58Check, to encode both private keys and addresses in ASCII.<br />
 The resulting Base58Check-encoded private key is said to be in Wallet Import Format (WIF).</p>
 <p>The relationship between the private key, public key and the bitcoin address can be represented by:</p>
@@ -128,26 +128,26 @@ The resulting Base58Check-encoded private key is said to be in Wallet Import For
 
 </div>
 <p><br /></p>
-<h1 id="simplest-wallet-possible"><span class="header-section-number">4</span> Simplest wallet possible</h1>
+<h1 data-number="4" id="simplest-wallet-possible"><span class="header-section-number">4</span> Simplest wallet possible</h1>
 <p>For the rest of the post our goal is to use Haskell to receive satoshis in as simple manner as possible. All we need to do is to generate a private key and derive from it an address. Using the address we can receive the coins and as long as we keep the key safe we can spend it later using any wallet which supports importing WIF keys.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="./#cb2-1"></a><span class="ot">randomKey ::</span> <span class="dt">IO</span> <span class="dt">PrvKey</span></span>
-<span id="cb2-2"><a href="./#cb2-2"></a>randomKey <span class="ot">=</span> withSource devRandom genPrvKey</span>
-<span id="cb2-3"><a href="./#cb2-3"></a></span>
-<span id="cb2-4"><a href="./#cb2-4"></a><span class="ot">bitcoinAddress ::</span> <span class="dt">PrvKey</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb2-5"><a href="./#cb2-5"></a>bitcoinAddress <span class="ot">=</span> addrToBase58 <span class="op">.</span> pubKeyAddr <span class="op">.</span> derivePubKey</span>
-<span id="cb2-6"><a href="./#cb2-6"></a></span>
-<span id="cb2-7"><a href="./#cb2-7"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb2-8"><a href="./#cb2-8"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb2-9"><a href="./#cb2-9"></a>   arg <span class="ot">&lt;-</span> listToMaybe <span class="op">&lt;$&gt;</span> getArgs</span>
-<span id="cb2-10"><a href="./#cb2-10"></a>   k   <span class="ot">&lt;-</span> <span class="fu">maybe</span> randomKey <span class="fu">return</span> (fromWIF <span class="op">=&lt;&lt;</span> arg)</span>
-<span id="cb2-11"><a href="./#cb2-11"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Key: &quot;</span> <span class="op">&lt;&gt;</span> toWIF k</span>
-<span id="cb2-12"><a href="./#cb2-12"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Address: &quot;</span> <span class="op">&lt;&gt;</span> bitcoinAddress k</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="./#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">randomKey ::</span> <span class="dt">IO</span> <span class="dt">PrvKey</span></span>
+<span id="cb2-2"><a href="./#cb2-2" aria-hidden="true" tabindex="-1"></a>randomKey <span class="ot">=</span> withSource devRandom genPrvKey</span>
+<span id="cb2-3"><a href="./#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="./#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">bitcoinAddress ::</span> <span class="dt">PrvKey</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb2-5"><a href="./#cb2-5" aria-hidden="true" tabindex="-1"></a>bitcoinAddress <span class="ot">=</span> addrToBase58 <span class="op">.</span> pubKeyAddr <span class="op">.</span> derivePubKey</span>
+<span id="cb2-6"><a href="./#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="./#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb2-8"><a href="./#cb2-8" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-9"><a href="./#cb2-9" aria-hidden="true" tabindex="-1"></a>   arg <span class="ot">&lt;-</span> listToMaybe <span class="op">&lt;$&gt;</span> getArgs</span>
+<span id="cb2-10"><a href="./#cb2-10" aria-hidden="true" tabindex="-1"></a>   k   <span class="ot">&lt;-</span> <span class="fu">maybe</span> randomKey <span class="fu">return</span> (fromWIF <span class="op">=&lt;&lt;</span> arg)</span>
+<span id="cb2-11"><a href="./#cb2-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Key: &quot;</span> <span class="op">&lt;&gt;</span> toWIF k</span>
+<span id="cb2-12"><a href="./#cb2-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Address: &quot;</span> <span class="op">&lt;&gt;</span> bitcoinAddress k</span></code></pre></div>
 <p>Without any arguments this program will randomly generate a private key and print it (in WIF) and its derived address. It is also possible to pass the private key as an argument in which case the address will be derived from that key.</p>
 <pre><code>$ cabal run 
 Key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Address: mpxf3UGxQdssHnnqjn2AbSrwNZ7wkd2wBS</code></pre>
 <p>Note that the key above has been redacted. You should under no circumstances reveal your key since this will allow others to spend the satoshis associated with the key.</p>
-<h1 id="receiving-satoshis-to-our-wallet"><span class="header-section-number">5</span> Receiving satoshis to our wallet</h1>
+<h1 data-number="5" id="receiving-satoshis-to-our-wallet"><span class="header-section-number">5</span> Receiving satoshis to our wallet</h1>
 <p>Let’s try to fill our simple wallet with some coins. To do so we will broadcast a transaction, using Bitcoin-Qt, spending <code>0.002</code> to <code>mpxf3U...</code>.</p>
 <center>
 <img src="../../../img/bitcoin-qt-send-haskoin.png" />
@@ -156,7 +156,7 @@ Address: mpxf3UGxQdssHnnqjn2AbSrwNZ7wkd2wBS</code></pre>
 <p><img class="img-polaroid img-rounded" src="../../../img/bitcoin-blockr-testnet.png" /></p>
 <p>The <code>0.0001</code> is the network fee which a miner collects who successfully adds a block containing this transaction to the blockchain. This transaction thus spends the previous UTXO completely.</p>
 <pre><code>0.002 + 0.2968 + 0.0001 = 0.2989</code></pre>
-<h1 id="bitcoin-scripts"><span class="header-section-number">6</span> Bitcoin scripts</h1>
+<h1 data-number="6" id="bitcoin-scripts"><span class="header-section-number">6</span> Bitcoin scripts</h1>
 <p>Most blockchain explorers present the previous UTXO as an address like <code>muAqCS...</code>. This is probably done to simplify things as it gives the illusion that money is being sent from one address (resembling a traditional bank account) to another. In reality a transaction references UTXOs in different transactions.</p>
 <p>Although this information is hidden when using blockr.io it can be seen by using <a href="http://blockexplorer.com/testnet/tx/5656f86df2b2ce177d6bffb2cfda35ef7c91bf98661e27dbb0d431325f2e55ad">blockexplorer.com</a>. The transaction references the first output (zero-th index) from <a href="http://blockexplorer.com/testnet/tx/f0b04f7d674eb0ebbbbe295fc4b1131aa8534643524bd09cfcb6e508d25e9d0b#o0"><code>f0b04f...</code></a>. To spend the <code>0.2989</code> which the Bitcoin-Qt wallet received at <code>muAqCS...</code> it must only fulfill the conditions of the pubkey script (<em>scriptPubKey</em>) for the UTXO, which is:</p>
 <pre><code>OP_DUP OP_HASH160 95c3848663509dcb35e5ec95653df88edae40482 OP_EQUALVERIFY OP_CHECKSIG</code></pre>
@@ -167,7 +167,7 @@ Address: mpxf3UGxQdssHnnqjn2AbSrwNZ7wkd2wBS</code></pre>
 <pre><code>&lt;Sig&gt; &lt;PubKey&gt; OP_DUP OP_HASH160 95c3848663509dcb35e5ec95653df88edae40482 OP_EQUALVERIFY OP_CHECKSIG</code></pre>
 <p>Participants on the peer network only add the transaction to the blockchain (confirming the spending of the transaction) if this script evaluates to true. The above script evaluates to true if the transaction signature (using PubKey) equals Sig.</p>
 <p><em>In a later posts we will analyze how to read, write and evaluate scripts.</em></p>
-<h1 id="handing-control-over-funds-to-another-wallet"><span class="header-section-number">7</span> Handing control over funds to another wallet</h1>
+<h1 data-number="7" id="handing-control-over-funds-to-another-wallet"><span class="header-section-number">7</span> Handing control over funds to another wallet</h1>
 <p>Finally — to drive the idea home that the satoshis are not stored in a wallet but as UTXO on the blockchain I’m going to show you how to hand over funds in our simplistic wallet to another wallet. As discussed previously funds are spent by broadcasting a transaction referencing a previous UTXO and proving that you were the intended recipient by providing a signature script. In most cases this means that you’ll be providing a public key and a signature — both of which are derived from the private key.</p>
 <p>I will show you the process by handing over the funds back to our Bitcoin-Qt client without constructing a transaction and broadcasting it to the peer network. The exact same method could be used to move funds to a third wallet.</p>
 <center>
