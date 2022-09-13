@@ -10,14 +10,6 @@
 
         <title>Gisli | Network programming in Haskell</title>
 
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-W95TH5W');</script>
-        <!-- End Google Tag Manager -->
-
         <meta property="og:url" content="https://gisli.hamstur.is/2012/12/network-programming-in-haskell/" />
         <meta property="og:site_name" content="Gísli | Network programming in Haskell" />
         <meta property="og:title" content="Gísli | Network programming in Haskell" />
@@ -49,9 +41,6 @@
         <link rel="alternate" type="application/atom+xml" title="Network programming in Haskell" href="../../../atom.xml">
     </head>
     <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W95TH5W" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
         <a href="./#main" class="skip-link p-screen-reader-text">Skip to content</a>
         <header class="profile">
             <a class="profile-icon" href="../../../">
@@ -64,20 +53,20 @@
         </header>
 
         <main id="main" class="l-main">
-        <article class="p-article">
+            <article class="p-article">
 
-    <header>
-        <h2 class="c-title c-article__title">Network programming in Haskell</h2>
-        <p class="c-article__meta">
-            <time datetime="December 14, 2012">December 14, 2012</time>
-        </p>
-        <p class="c-article__meta">
-            3 min read
-        </p>
-    </header>
+                <header>
+                    <h2 class="c-title c-article__title">Network programming in Haskell</h2>
+                    <p class="c-article__meta">
+                        <time datetime="December 14, 2012">December 14, 2012</time>
+                    </p>
+                    <p class="c-article__meta">
+                        3 min read
+                    </p>
+                </header>
 
-    <section id="js-article" class="c-article__body">
-        <p>At work we use <a href="http://clojure.org">Clojure</a> as our primary implementation language. I wrote a <a href="http://appvise.me/2011/03/why-we-are-choosing-clojure-as-our-main-programming-language/">blog post</a> about the decision which got a lot of attention from the <a href="http://news.ycombinator.com/item?id=2350381">Hacker News</a> community. While we are extremely happy with our decision we have started to deploy some <a href="http://www.haskell.org/">Haskell</a> code on some low memory VPS we deploy.</p>
+                <section id="js-article" class="c-article__body">
+<p>At work we use <a href="http://clojure.org">Clojure</a> as our primary implementation language. I wrote a <a href="http://appvise.me/2011/03/why-we-are-choosing-clojure-as-our-main-programming-language/">blog post</a> about the decision which got a lot of attention from the <a href="http://news.ycombinator.com/item?id=2350381">Hacker News</a> community. While we are extremely happy with our decision we have started to deploy some <a href="http://www.haskell.org/">Haskell</a> code on some low memory VPS we deploy.</p>
 <p>Some of the machines we deploy are 256M and 512M instances and with multiple instances of the JVM the machines start swapping to disk sooner or later. The other day we needed a simple way to forward all HTTP traffic received by our DNS servers to our website. It seemed like the perfect project to introduce Haskell since the code is independent of everything else and extremely simple; just output a <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection">HTTP 301 redirect</a> response no matter what was received on the socket.</p>
 <p>The resulting code is as close to a networking skeleton written in Haskell which I hope others will benefit from when starting a Haskell project involving network communication. <!--more--></p>
 <p>The following is the complete code and below I will step through some of the more interesting parts:</p>
@@ -152,36 +141,36 @@
 <p>By using Haskell you get multi-core support for free, so if you want to distribute the request handling over the cores in your machine you simply execute the server like so. Substitute <code>x</code> in <code>-Nx</code> with the number of cores you want to use.</p>
 <pre><code>$ ./network-server +RTS -Nx</code></pre>
 <p>As can be seen from the above Haskell is a worthy tool in the concurrent developer’s toolbox and like Clojure it features many paradigms like <a href="http://www.haskell.org/haskellwiki/Software_transactional_memory">Software Transactional Memory</a> which help the programmer in the battle with multi-threaded, concurrent programs.</p>
-    </section>
+                </section>
 
-    <section>
-        <p>
-            @<a href="../../../code/">code</a> 
-            #<a href="../../../tags/haskell/">haskell</a> 
-        </p>
-        <p>
-        </p>
-    </section>
+                <section>
+                    <p>
+                        @<a href="../../../code/">code</a> 
+                        #<a href="../../../tags/haskell/">haskell</a> 
+                    </p>
+                    <p>
+                    </p>
+                </section>
 
-    <footer>
-        <nav class="c-pagination p-pagination">
-            <div class="c-pagination__ctrl">
-                <div class="c-pagination__newer">
-                    <a href="../../../2014/08/bitcoin-from-a-developers-perspective/">Newer</a>
-                    
-                </div>
-                <div class="c-pagination__older">
-                    <a href="../../../2010/02/optical-mouse-scanner-location-awareness/">Older</a>
-                    
-                </div>
-            </div>
-        </nav>
-    </footer>
+                <footer>
+                    <nav class="c-pagination p-pagination">
+                        <div class="c-pagination__ctrl">
+                            <div class="c-pagination__newer">
+                                <a href="../../../2014/08/bitcoin-from-a-developers-perspective/">Newer</a>
+                                
+                            </div>
+                            <div class="c-pagination__older">
+                                <a href="../../../2010/02/optical-mouse-scanner-location-awareness/">Older</a>
+                                
+                            </div>
+                        </div>
+                    </nav>
+                </footer>
 
-</article>
+            </article>
 
         </main>
-     
+
         <footer class="l-footer">
             <p class="p-copyright">
                 Copyright <i class="fas fa-heart" style="color: red;"></i> Gísli Kristjánsson 2022

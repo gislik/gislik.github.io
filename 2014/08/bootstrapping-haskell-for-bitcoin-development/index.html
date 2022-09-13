@@ -10,14 +10,6 @@
 
         <title>Gisli | Bootstrapping Haskell for Bitcoin development</title>
 
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-W95TH5W');</script>
-        <!-- End Google Tag Manager -->
-
         <meta property="og:url" content="https://gisli.hamstur.is/2014/08/bootstrapping-haskell-for-bitcoin-development/" />
         <meta property="og:site_name" content="Gísli | Bootstrapping Haskell for Bitcoin development" />
         <meta property="og:title" content="Gísli | Bootstrapping Haskell for Bitcoin development" />
@@ -49,9 +41,6 @@
         <link rel="alternate" type="application/atom+xml" title="Bootstrapping Haskell for Bitcoin development" href="../../../atom.xml">
     </head>
     <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W95TH5W" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
         <a href="./#main" class="skip-link p-screen-reader-text">Skip to content</a>
         <header class="profile">
             <a class="profile-icon" href="../../../">
@@ -64,20 +53,20 @@
         </header>
 
         <main id="main" class="l-main">
-        <article class="p-article">
+            <article class="p-article">
 
-    <header>
-        <h2 class="c-title c-article__title">Bootstrapping Haskell for Bitcoin development</h2>
-        <p class="c-article__meta">
-            <time datetime="August 20, 2014">August 20, 2014</time>
-        </p>
-        <p class="c-article__meta">
-            2 min read
-        </p>
-    </header>
+                <header>
+                    <h2 class="c-title c-article__title">Bootstrapping Haskell for Bitcoin development</h2>
+                    <p class="c-article__meta">
+                        <time datetime="August 20, 2014">August 20, 2014</time>
+                    </p>
+                    <p class="c-article__meta">
+                        2 min read
+                    </p>
+                </header>
 
-    <section id="js-article" class="c-article__body">
-        <p>It’s time to get our hands dirty. Let’s begin bootstrapping our Haskell development environment. Before we proceed it’s probably fair to note that it’s <em>very</em> early days for Bitcoin development using Haskell and like users of most languages one should expect the Bitcoin libraries to be changing rapidly.</p>
+                <section id="js-article" class="c-article__body">
+<p>It’s time to get our hands dirty. Let’s begin bootstrapping our Haskell development environment. Before we proceed it’s probably fair to note that it’s <em>very</em> early days for Bitcoin development using Haskell and like users of most languages one should expect the Bitcoin libraries to be changing rapidly.</p>
 <p>Never the less the <a href="https://github.com/haskoin/haskoin/graphs/contributors">authors</a> of <a href="http://hackage.haskell.org/package/haskoin">Haskoin</a> have done a remarkable job implementing a Bitcoin library in Haskell from scratch — this includes most (if not all) the low-level <a href="http://hackage.haskell.org/package/haskoin-0.1.0.2/docs/Network-Haskoin-Crypto.html">elliptic curve cryptography</a> functionality. They are distributing the library with a public domain license but their aim is to build a <a href="http://haskoin.com/">commercial wallet service</a> on top of the library. Please consider signing up for their service to show them your support.</p>
 <p>Now I will show you how to create a sandboxed environment for your Bitcoin projects. This will reduce the risk of dependency conflicts (a.k.a. dependency hell) by installing a sandboxed version of all the dependencies independent of other projects. Later we will see how we can share a sandbox between different Bitcoin projects. We will also likely require the bleeding edge development version of Haskoin pulled from <a href="https://github.com/haskoin/haskoin">GitHub</a> and in due time I’ll show you how to link the development version to your sandboxed project.</p>
 <p>In Haskell packages and dependencies are published to <a href="http://hackage.haskell.org/">Hackage</a> and managed by <a href="http://www.haskell.org/cabal/">Cabal</a> and since version 1.18 it has included support for sandboxed environments.</p>
@@ -114,36 +103,36 @@ $ cabal build
 $ cabal run</code></pre>
 <p>Actually, running <code>cabal run</code> will usually be enough as it will trigger the install and build events automatically.</p>
 <p>In my <a href="../../../2014/10/receiving-bitcoins/">next</a> post in this series we will experiment with our sandboxed, cabalized Haskoin environment.</p>
-    </section>
+                </section>
 
-    <section>
-        <p>
-            @<a href="../../../crypto/">crypto</a> 
-            #<a href="../../../tags/bitcoin/">bitcoin</a> #<a href="../../../tags/haskell/">haskell</a> 
-        </p>
-        <p>
-        </p>
-    </section>
+                <section>
+                    <p>
+                        @<a href="../../../crypto/">crypto</a> 
+                        #<a href="../../../tags/bitcoin/">bitcoin</a> #<a href="../../../tags/haskell/">haskell</a> 
+                    </p>
+                    <p>
+                    </p>
+                </section>
 
-    <footer>
-        <nav class="c-pagination p-pagination">
-            <div class="c-pagination__ctrl">
-                <div class="c-pagination__newer">
-                    <a href="../../../2014/10/receiving-bitcoins/">Newer</a>
-                    
-                </div>
-                <div class="c-pagination__older">
-                    <a href="../../../2014/08/bitcoin-wallets/">Older</a>
-                    
-                </div>
-            </div>
-        </nav>
-    </footer>
+                <footer>
+                    <nav class="c-pagination p-pagination">
+                        <div class="c-pagination__ctrl">
+                            <div class="c-pagination__newer">
+                                <a href="../../../2014/10/receiving-bitcoins/">Newer</a>
+                                
+                            </div>
+                            <div class="c-pagination__older">
+                                <a href="../../../2014/08/bitcoin-wallets/">Older</a>
+                                
+                            </div>
+                        </div>
+                    </nav>
+                </footer>
 
-</article>
+            </article>
 
         </main>
-     
+
         <footer class="l-footer">
             <p class="p-copyright">
                 Copyright <i class="fas fa-heart" style="color: red;"></i> Gísli Kristjánsson 2022
