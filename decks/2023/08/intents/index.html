@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Intents</title>
+
+		
+		<link rel="stylesheet" href="../../../../reveal.js/reset.css">
+		<link rel="stylesheet" href="../../../../reveal.js/reveal.css">
+		<link rel="stylesheet" href="../../../../reveal.js/theme/blood.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../../../../reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+		
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+<section>
+<h1>
+Intents
+</h1>
+</section>
+<section>
+<h4>
+Definition
+</h4>
+An intent is signed a set of <strong>declarative constraints</strong> which allow a user to outsource transaction creation to a third party without relinquishing full control to the transacting party.
+</section>
+<section>
+<p>If a transaction explicitly refers to <strong>how</strong> an action should be performed, an intent refers to <strong>what</strong> the desired outcome of that action should be.</p>
+If a transaction says <em>“do A then B, pay exactly C to get X back”</em>, an intent says <em>“I want X and I’m willing to pay up to C”</em>.
+</section>
+<section>
+<img src="intents.png" />
+</section>
+<section>
+Think about the difference between using a taxi to get from A to B versus a rental car
+</section>
+<section>
+<h4>
+Features
+</h4>
+<p>Limit Orders</p>
+<p>CowSwap-style Auctions</p>
+<p>Gas Sponsorship</p>
+<p>Delegation</p>
+<p>Transaction Batching</p>
+Aggregators
+</section>
+<section>
+<img src="intentpool.png" />
+</section>
+<section>
+<h4>
+Challenges
+</h4>
+<p>Credible commitment &amp; Decentralization</p>
+<p>Privacy</p>
+Intent language/Protocol
+</section>
+<section>
+<h4>
+Intent protocols
+</h4>
+<p>Anoma</p>
+<p>Flashbot’s SUAVE</p>
+h/t 0x
+</section>
+</section>
+			</div>
+		</div><script src="../../../../reveal.js/reveal.js"></script>
+		<script src="../../../../reveal.js/plugin/notes/notes.js"></script>
+		<!-- <script src="/reveal.js/plugin/markdown/markdown.js"></script> -->
+		<script src="../../../../reveal.js/plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				// plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealHighlight, RevealNotes ]
+			});
+		</script>
+		
+        <link rel="stylesheet" href="../../../../katex/katex.min.css">
+        <script defer src="../../../../katex/katex.min.js"></script>
+        <script type="text/javascript" script defer src="../../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+	</body>
+</html>
