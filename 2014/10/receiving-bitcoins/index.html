@@ -67,13 +67,13 @@
 
                 <section id="js-article" class="c-article__body">
 <div class="toc"><ul>
-<li><a href="./#testnet"><span class="toc-section-number">1</span> Testnet</a></li>
-<li><a href="./#keys-addresses-and-transactions"><span class="toc-section-number">2</span> keys, addresses and transactions</a></li>
-<li><a href="./#base58check-and-wallet-import-format-wif"><span class="toc-section-number">3</span> Base58Check and Wallet Import Format (WIF)</a></li>
-<li><a href="./#simplest-wallet-possible"><span class="toc-section-number">4</span> Simplest wallet possible</a></li>
-<li><a href="./#receiving-satoshis-to-our-wallet"><span class="toc-section-number">5</span> Receiving satoshis to our wallet</a></li>
-<li><a href="./#bitcoin-scripts"><span class="toc-section-number">6</span> Bitcoin scripts</a></li>
-<li><a href="./#handing-control-over-funds-to-another-wallet"><span class="toc-section-number">7</span> Handing control over funds to another wallet</a></li>
+<li><a href="./#testnet" id="toc-testnet"><span class="toc-section-number">1</span> Testnet</a></li>
+<li><a href="./#keys-addresses-and-transactions" id="toc-keys-addresses-and-transactions"><span class="toc-section-number">2</span> keys, addresses and transactions</a></li>
+<li><a href="./#base58check-and-wallet-import-format-wif" id="toc-base58check-and-wallet-import-format-wif"><span class="toc-section-number">3</span> Base58Check and Wallet Import Format (WIF)</a></li>
+<li><a href="./#simplest-wallet-possible" id="toc-simplest-wallet-possible"><span class="toc-section-number">4</span> Simplest wallet possible</a></li>
+<li><a href="./#receiving-satoshis-to-our-wallet" id="toc-receiving-satoshis-to-our-wallet"><span class="toc-section-number">5</span> Receiving satoshis to our wallet</a></li>
+<li><a href="./#bitcoin-scripts" id="toc-bitcoin-scripts"><span class="toc-section-number">6</span> Bitcoin scripts</a></li>
+<li><a href="./#handing-control-over-funds-to-another-wallet" id="toc-handing-control-over-funds-to-another-wallet"><span class="toc-section-number">7</span> Handing control over funds to another wallet</a></li>
 </ul></div><h1 data-number="1" id="testnet"><span class="header-section-number">1</span> Testnet</h1>
 <p>Some of you might be aware of the “other” Bitcoin blockchain — <em>testnet3</em> — which is mined in parallel to the main blockchain — <em>mainnet</em> — and since coins on testnet are entirely worthless we can develop safely without our mistakes being too costly.</p>
 <blockquote>
@@ -141,7 +141,8 @@ Address: mpxf3UGxQdssHnnqjn2AbSrwNZ7wkd2wBS</code></pre>
 <center>
 <img src="../../../img/bitcoin-qt-send-haskoin.png" />
 </center>
-<p><br /> This transaction can be analyzed on the testnet3 blockchain using a <a href="https://www.blockchain.com/btc-testnet/tx/5656f86df2b2ce177d6bffb2cfda35ef7c91bf98661e27dbb0d431325f2e55ad">blockchain explorer</a>. The transaction has two outputs spending <code>0.002</code> to <code>mpxf3U...</code> (the address generated above using Haskoin) and <code>0.2968</code> to <code>msN7AF...</code>. Since transactions can only spend the full amount (<code>0.2989</code>) of a previously <a href="https://bitcoin.org/en/developer-guide#term-output">unspent transaction output</a> the Bitcoin-Qt wallet must generate a new address spending the rest of the amount back to itself.</p>
+<p><br />
+This transaction can be analyzed on the testnet3 blockchain using a <a href="https://www.blockchain.com/btc-testnet/tx/5656f86df2b2ce177d6bffb2cfda35ef7c91bf98661e27dbb0d431325f2e55ad">blockchain explorer</a>. The transaction has two outputs spending <code>0.002</code> to <code>mpxf3U...</code> (the address generated above using Haskoin) and <code>0.2968</code> to <code>msN7AF...</code>. Since transactions can only spend the full amount (<code>0.2989</code>) of a previously <a href="https://bitcoin.org/en/developer-guide#term-output">unspent transaction output</a> the Bitcoin-Qt wallet must generate a new address spending the rest of the amount back to itself.</p>
 <p><img class="img-polaroid img-rounded" src="../../../img/bitcoin-blockr-testnet.png" /></p>
 <p>The <code>0.0001</code> is the network fee which a miner collects who successfully adds a block containing this transaction to the blockchain. This transaction thus spends the previous UTXO completely.</p>
 <pre><code>0.002 + 0.2968 + 0.0001 = 0.2989</code></pre>

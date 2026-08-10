@@ -106,8 +106,6 @@ Compile my code again
 Well this sounds almost too easy. And it is. I alway got the error <code>Unsupported socket</code> - both on my Mac (development machine) and on my Linux box (the production machine). On <a href="http://groups.google.com/group/HAppS/msg/0c9a0d0fd7c6aff0">Google Groups</a> I found someone saying that it’s a problem with how <em>Haskell’s Templating System</em> handles  <em>IPv6. </em>The solution was to change <code>Happstack.Server.HTTP.Socket.acceptLite</code> to:
 </p>
 <div>
-
-
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- | alternative implementation of accept to work around EAI_AGAIN errors </span></span>
 <span id="cb1-2"><a href="./#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">acceptLite ::</span> <span class="dt">S.Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Handle</span>, <span class="dt">S.HostName</span>, <span class="dt">S.PortNumber</span>) </span>
 <span id="cb1-3"><a href="./#cb1-3" aria-hidden="true" tabindex="-1"></a>acceptLite sock <span class="ot">=</span> <span class="kw">do</span> </span>
@@ -155,6 +153,7 @@ Becomes this:
 That’s it for now.
 </p>
 <p>P.S. On a different note I just placed an order for the <a href="../../../robotics/">Arduino Duemilanove</a> microcontroller board. It should be arriving this week. I’m all excited so the next blog could be about that.</p>
+</div>
                 </section>
 
                 <section>

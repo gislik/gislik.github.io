@@ -66,7 +66,7 @@
 <p>The project depends on:</p>
 <ul>
 <li><p>The <a href="https://www.stackage.org/">stackage</a> build system</p>
-<p>Please see the chapter <a href="https://docs.haskellstack.org/en/stable/README/#how-to-install">How to install</a> in the official documentation for stack. On macOS I find it easisest to use <a href="https://brew.sh/">Homebrew</a> with <code>brew install haskell-stack</code>.</p></li>
+<p>Please see the chapter <a href="https://docs.haskellstack.org/en/stable/README/#how-to-install">How to install</a> in the official documentation for stack. On macOS I find it easiest to use <a href="https://brew.sh/">Homebrew</a> with <code>brew install haskell-stack</code>.</p></li>
 <li><p>The <a href="https://sass-lang.com/install">sass</a> SCSS compiler</p>
 <p>Install using either Node.js or Homebrew.</p>
 <ul>
@@ -78,7 +78,7 @@
 <pre><code>$ stack build</code></pre>
 <p>Stack will pull in all the dependencies specified in the <a href="blog.cabal">cabal</a> file, the correct version of `ghc, and build the compiler.</p>
 <h2 id="writing-content">Writing content</h2>
-<p>Pages and blogs are written in static Markdown like the <a href="about.md">About</a> page. Metadata can be placed in the front matter formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template. Page titles are either set explicity in the front matter or derived from the file name.</p>
+<p>Pages and blogs are written in static Markdown like the <a href="about.md">About</a> page. Metadata can be placed in the front matter formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template. Page titles are either set explicitly in the front matter or derived from the file name.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> This is the blog title</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> tag1, tag2</span></span>
@@ -88,8 +88,8 @@
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>This is the blog body</span></code></pre></div>
-<p>Pages in the <code>blog</code> directory are considered to be blog posts which have additional features like pagination, categories and tags. Blog posts are ordered newest to oldest and each post’s date is extracted from the <code>date</code> field, the <code>published</code> field or from the a prefix of the filename. Tags are generated from the <code>tags</code> field in the metadata but categories are derived from the parent folder’s name. When an <code>image</code> is specified it is used in Twitter summary cards.</p>
-<p>Summary is either set explicitly in the front matter, read from the content and upto the <code>&lt;!--more--&gt;</code> comment or derived from the first sentence. Summaryr set in the front matter is used as the description for Twitter summary cards.</p>
+<p>Pages in the <code>blog</code> directory are considered to be blog posts which have additional features like pagination, categories and tags. Blog posts are ordered newest to oldest and each post’s date is extracted from the <code>date</code> field, the <code>published</code> field or from the prefix of the filename. Tags are generated from the <code>tags</code> field in the metadata but categories are derived from the parent folder’s name. When an <code>image</code> is specified it is used in Twitter summary cards.</p>
+<p>Summary is either set explicitly in the front matter, read from the content and up to the <code>&lt;!--more--&gt;</code> comment or derived from the first sentence. Summary set in the front matter is used as the description for Twitter summary cards.</p>
 <p>Some parts of the site are generated without an existing source using Hakyll combinators like the index page which lists a few of the latest blog.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    route   <span class="op">$</span> idRoute</span>
@@ -124,13 +124,22 @@ For longer blog posts or pages it can be very convenient to include a table of c
 <ul>
 <li><code>page.body</code> for the content body</li>
 <li><code>page.url</code> for the destination URL of the page</li>
-<li><code>page.path</code> for the original filepath of the page</li>
+<li><code>page.path</code> for the original file path of the page</li>
 <li><code>page.foo</code> where foo is specified in the metadata</li>
 <li><code>page.title</code> for the page title</li>
 <li><code>polish(text)</code> to exchange certain words in the text for an emoji</li>
 </ul>
 <p>Blog lists has a <code>blogs</code> variable which can be iterated over and these additional variables:</p>
-<p>-<code>pages.first.number</code> -<code>pages.first.url</code> -<code>pages.next.number</code> -<code>pages.next.url</code> -<code>pages.previous.number</code> -<code>pages.previous.url</code> -<code>pages.last.number</code> -<code>pages.last.url</code> -<code>pages.current.number</code> -<code>pages.count</code></p>
+<p>-<code>pages.first.number</code>
+-<code>pages.first.url</code>
+-<code>pages.next.number</code>
+-<code>pages.next.url</code>
+-<code>pages.previous.number</code>
+-<code>pages.previous.url</code>
+-<code>pages.last.number</code>
+-<code>pages.last.url</code>
+-<code>pages.current.number</code>
+-<code>pages.count</code></p>
 <p>Single blog posts have these additions:</p>
 <ul>
 <li><code>blog.title</code></li>
@@ -146,11 +155,15 @@ For longer blog posts or pages it can be very convenient to include a table of c
 <p>Deck lists has a <code>decks</code> variable which is a list field and can be iterated over.</p>
 <p>Single decks have a <code>theme</code> variable.</p>
 <p>For more information about templates including control flow, conditionals, partials and loops, refer to this <a href="https://jaspervdj.be/hakyll/tutorials/04-compilers.html">tutorial</a>.</p>
-<h2 id="compiling-the-website">Compiling the website</h2>
+<h2 id="building-the-blog">Building the blog</h2>
 <p>I have created a script transforms the Markdown to HTML using the compiler. Relevant templates from the <code>templates</code> directory are applied in the build pipeline before the final results are stored in the <code>_site</code> directory.</p>
 <pre><code>$ ./build</code></pre>
 <p>When working on the content itself it is quite convenient to have a HTTP server which watches which files have been saved recently and compiles the website incrementally. There is also a script for that which binds the server to <code>http://localhost:8000</code>.</p>
 <pre><code>$ ./watch</code></pre>
+<h2 id="publishing-the-website">Publishing the website</h2>
+<p>I have a script that publishes the output of the static build process to [https://gislik.github.io/]. There is a <a href="static/CNAME">CNAME</a> for the custom domain <a href="https://gisli.hamstur.is">gisli.hamstur.is</a>.</p>
+<p>$ ./publish.sh</p>
+<p>Additionally there is a GitHub Action that will automatically build and publish the blog when changes to the <code>master</code> branch are committed. That means that the blog contents can be edited in GitHub’s visual editor and the changes are automatically reflect on the website. The docker image for the action is stored on [docker.io/gislik/blog]. The docker image must be built on an <code>x86_64</code> architecture.</p>
                 </section>
 
             </article>

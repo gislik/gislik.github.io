@@ -68,28 +68,28 @@
 
                 <section id="js-article" class="c-article__body">
 <div class="toc"><ul>
-<li><a href="./#hakyll-heart-pandoc"><span class="toc-section-number">1</span> Hakyll ❤ Pandoc</a></li>
-<li><a href="./#website-rules"><span class="toc-section-number">2</span> Website rules</a>
+<li><a href="./#hakyll-heart-pandoc" id="toc-hakyll-heart-pandoc"><span class="toc-section-number">1</span> Hakyll ❤ Pandoc</a></li>
+<li><a href="./#website-rules" id="toc-website-rules"><span class="toc-section-number">2</span> Website rules</a>
 <ul>
-<li><a href="./#matching-clause-routes-and-compilers"><span class="toc-section-number">2.1</span> Matching clause, routes and compilers</a></li>
-<li><a href="./#templates-and-their-contexts"><span class="toc-section-number">2.2</span> Templates and their contexts</a></li>
-<li><a href="./#metadata-flow-control-and-list-iteration"><span class="toc-section-number">2.3</span> Metadata, flow control and list iteration</a></li>
+<li><a href="./#matching-clause-routes-and-compilers" id="toc-matching-clause-routes-and-compilers"><span class="toc-section-number">2.1</span> Matching clause, routes and compilers</a></li>
+<li><a href="./#templates-and-their-contexts" id="toc-templates-and-their-contexts"><span class="toc-section-number">2.2</span> Templates and their contexts</a></li>
+<li><a href="./#metadata-flow-control-and-list-iteration" id="toc-metadata-flow-control-and-list-iteration"><span class="toc-section-number">2.3</span> Metadata, flow control and list iteration</a></li>
 </ul></li>
-<li><a href="./#advanced-features"><span class="toc-section-number">3</span> Advanced features</a>
+<li><a href="./#advanced-features" id="toc-advanced-features"><span class="toc-section-number">3</span> Advanced features</a>
 <ul>
-<li><a href="./#auto-generated-table-of-contents"><span class="toc-section-number">3.1</span> Auto-generated table of contents</a></li>
-<li><a href="./#katex-to-render-latex-math"><span class="toc-section-number">3.2</span> <span class="math inline">\(\KaTeX\ \)</span> to render <span class="math inline">\(\LaTeX\)</span> math</a></li>
-<li><a href="./#decks-and-presentations"><span class="toc-section-number">3.3</span> Decks and presentations</a></li>
-<li><a href="./#paginating-posts"><span class="toc-section-number">3.4</span> Paginating posts</a></li>
-<li><a href="./#support-for-tags-and-categories"><span class="toc-section-number">3.5</span> Support for tags and categories</a></li>
+<li><a href="./#auto-generated-table-of-contents" id="toc-auto-generated-table-of-contents"><span class="toc-section-number">3.1</span> Auto-generated table of contents</a></li>
+<li><a href="./#katex-to-render-latex-math" id="toc-katex-to-render-latex-math"><span class="toc-section-number">3.2</span> <span class="math inline">\(\KaTeX\ \)</span> to render <span class="math inline">\(\LaTeX\)</span> math</a></li>
+<li><a href="./#decks-and-presentations" id="toc-decks-and-presentations"><span class="toc-section-number">3.3</span> Decks and presentations</a></li>
+<li><a href="./#paginating-posts" id="toc-paginating-posts"><span class="toc-section-number">3.4</span> Paginating posts</a></li>
+<li><a href="./#support-for-tags-and-categories" id="toc-support-for-tags-and-categories"><span class="toc-section-number">3.5</span> Support for tags and categories</a></li>
 </ul></li>
-<li><a href="./#rolling-your-own"><span class="toc-section-number">4</span> Rolling your own</a>
+<li><a href="./#rolling-your-own" id="toc-rolling-your-own"><span class="toc-section-number">4</span> Rolling your own</a>
 <ul>
-<li><a href="./#collecting-rules-in-the-rules-monad"><span class="toc-section-number">4.1</span> Collecting rules in the Rules monad</a></li>
-<li><a href="./#identifiers-and-patterns"><span class="toc-section-number">4.2</span> Identifiers and patterns</a></li>
-<li><a href="./#writing-compilers-and-loading-items"><span class="toc-section-number">4.3</span> Writing Compilers and loading Items</a></li>
-<li><a href="./#snapshots-to-define-a-pipeline-stage"><span class="toc-section-number">4.4</span> Snapshots to define a pipeline stage</a></li>
-<li><a href="./#working-with-contexts-and-templates"><span class="toc-section-number">4.5</span> Working with contexts and templates</a></li>
+<li><a href="./#collecting-rules-in-the-rules-monad" id="toc-collecting-rules-in-the-rules-monad"><span class="toc-section-number">4.1</span> Collecting rules in the Rules monad</a></li>
+<li><a href="./#identifiers-and-patterns" id="toc-identifiers-and-patterns"><span class="toc-section-number">4.2</span> Identifiers and patterns</a></li>
+<li><a href="./#writing-compilers-and-loading-items" id="toc-writing-compilers-and-loading-items"><span class="toc-section-number">4.3</span> Writing Compilers and loading Items</a></li>
+<li><a href="./#snapshots-to-define-a-pipeline-stage" id="toc-snapshots-to-define-a-pipeline-stage"><span class="toc-section-number">4.4</span> Snapshots to define a pipeline stage</a></li>
+<li><a href="./#working-with-contexts-and-templates" id="toc-working-with-contexts-and-templates"><span class="toc-section-number">4.5</span> Working with contexts and templates</a></li>
 </ul></li>
 </ul></div><h1 data-number="1" id="hakyll-heart-pandoc"><span class="header-section-number">1</span> Hakyll ❤ Pandoc</h1>
 <p>Since I don’t write Haskell code professionally anymore it takes me longer to get into the right rhythm. This post is intended for my future self more or less and should serve as a cheatsheet for Hakyll development. I’ve already written a high level overview of how to edit content and build the website in this <a href="https://github.com/gislik/blog/blob/master/README.md">README</a>. Here I want to go deeper into how to construct new compilers and how to apply them in a context to templates.</p>
@@ -138,14 +138,14 @@
 <span id="cb5-7"><a href="./#cb5-7" aria-hidden="true" tabindex="-1"></a>      alias x <span class="op">|</span> x <span class="op">==</span> key <span class="ot">=</span> <span class="st">&quot;title&quot;</span></span>
 <span id="cb5-8"><a href="./#cb5-8" aria-hidden="true" tabindex="-1"></a>      alias x            <span class="ot">=</span> x</span></code></pre></div>
 <p>A special case of the string context is the function context which defines a variable which value is a function which can be called in the template.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="./#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;header&gt;</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="./#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">header</span><span class="dt">&gt;</span></span>
 <span id="cb6-2"><a href="./#cb6-2" aria-hidden="true" tabindex="-1"></a>  $partial(&quot;templates/header.html&quot;)$</span>
-<span id="cb6-3"><a href="./#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/header&gt;</span></span>
+<span id="cb6-3"><a href="./#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">header</span><span class="dt">&gt;</span></span>
 <span id="cb6-4"><a href="./#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="./#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span></span>
+<span id="cb6-5"><a href="./#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
 <span id="cb6-6"><a href="./#cb6-6" aria-hidden="true" tabindex="-1"></a>  $countwords(body)$</span>
 <span id="cb6-7"><a href="./#cb6-7" aria-hidden="true" tabindex="-1"></a>  $sum(1,2,3)$</span>
-<span id="cb6-8"><a href="./#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/p&gt;</span></span></code></pre></div>
+<span id="cb6-8"><a href="./#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div>
 <h2 data-number="2.3" id="metadata-flow-control-and-list-iteration"><span class="header-section-number">2.3</span> Metadata, flow control and list iteration</h2>
 <p>Metadata can be placed in the front matter of the markdown formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template in case the <code>metadataField :: Context a</code> is applied to the template. Tags can eiter be comma separated or as a valid YAML list.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="./#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -160,20 +160,20 @@
 <span id="cb7-10"><a href="./#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="./#cb7-11" aria-hidden="true" tabindex="-1"></a>This is the blog body</span></code></pre></div>
 <p>Special function variables are used to define conditional branches to display and iterate over items. The variable names used within the $for(blogs)$ loop are defined in the <code>blog</code> list field. Everything between $sep$ and $endfor$ will be used as a separator between items, i.e. it is not included for the last element.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="./#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;blog-list&quot;</span><span class="kw">&gt;</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="./#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;blog-list&quot;</span><span class="dt">&gt;</span></span>
 <span id="cb8-2"><a href="./#cb8-2" aria-hidden="true" tabindex="-1"></a>$for(blogs)$</span>
-<span id="cb8-3"><a href="./#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;blog-item&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb8-3"><a href="./#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;blog-item&quot;</span><span class="dt">&gt;</span></span>
 <span id="cb8-4"><a href="./#cb8-4" aria-hidden="true" tabindex="-1"></a>    $title$</span>
 <span id="cb8-5"><a href="./#cb8-5" aria-hidden="true" tabindex="-1"></a>  $if(blog.author)$</span>
 <span id="cb8-6"><a href="./#cb8-6" aria-hidden="true" tabindex="-1"></a>    $blog.author$</span>
 <span id="cb8-7"><a href="./#cb8-7" aria-hidden="true" tabindex="-1"></a>  $else$ </span>
 <span id="cb8-8"><a href="./#cb8-8" aria-hidden="true" tabindex="-1"></a>    Unknown author</span>
 <span id="cb8-9"><a href="./#cb8-9" aria-hidden="true" tabindex="-1"></a>  $endif$</span>
-<span id="cb8-10"><a href="./#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;gdiv&gt;</span></span>
+<span id="cb8-10"><a href="./#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">gdiv</span><span class="dt">&gt;</span></span>
 <span id="cb8-11"><a href="./#cb8-11" aria-hidden="true" tabindex="-1"></a>  $sep$</span>
-<span id="cb8-12"><a href="./#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;hr</span> <span class="er">g</span><span class="kw">&gt;</span></span>
+<span id="cb8-12"><a href="./#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">hr</span><span class="ot"> g</span><span class="dt">&gt;</span></span>
 <span id="cb8-13"><a href="./#cb8-13" aria-hidden="true" tabindex="-1"></a>$endfor$</span>
-<span id="cb8-14"><a href="./#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<span id="cb8-14"><a href="./#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
 <h1 data-number="3" id="advanced-features"><span class="header-section-number">3</span> Advanced features</h1>
 <p>Using the <code>pandocCompilerWith</code> some options can be passed in which affect the behavior of Pandoc. In addition extensions can be enabled which unlock additional features.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="./#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">pandocCompilerWith ::</span> <span class="dt">ReaderOptions</span> <span class="ot">-&gt;</span> <span class="dt">WriterOptions</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
@@ -209,10 +209,10 @@
 <span id="cb10-20"><a href="./#cb10-20" aria-hidden="true" tabindex="-1"></a>      }</span></code></pre></div>
 <h2 data-number="3.2" id="katex-to-render-latex-math"><span class="header-section-number">3.2</span> <span class="math inline">\(\KaTeX\ \)</span> to render <span class="math inline">\(\LaTeX\)</span> math</h2>
 <p>Pandoc can transform math to MathJax when configured correctly. KaTeX is able to render the output by embedding the javascript and CSS.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="./#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/katex/katex.min.css&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb11-2"><a href="./#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script</span> <span class="er">defer</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/katex/katex.min.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb11-3"><a href="./#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span> <span class="er">script</span> <span class="er">defer</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/katex/auto-render.min.js&quot;</span> </span>
-<span id="cb11-4"><a href="./#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  onload=</span><span class="st">&quot;renderMathInElement(document.body);&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="./#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/katex/katex.min.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb11-2"><a href="./#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> defer src</span><span class="op">=</span><span class="st">&quot;/katex/katex.min.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb11-3"><a href="./#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="ot"> script defer src</span><span class="op">=</span><span class="st">&quot;/katex/auto-render.min.js&quot;</span><span class="ot"> </span></span>
+<span id="cb11-4"><a href="./#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  onload</span><span class="op">=</span><span class="st">&quot;renderMathInElement(document.body);&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
 <p>Equations can be place on their own lines.</p>
 <p class="center">
 <code class="center">$$ \ln x = \int_{-\infty}^x \frac 1 y \, dy  $$</code>
@@ -245,22 +245,22 @@ becomes
 <span id="cb12-15"><a href="./#cb12-15" aria-hidden="true" tabindex="-1"></a>      }</span></code></pre></div>
 <h2 data-number="3.3" id="decks-and-presentations"><span class="header-section-number">3.3</span> Decks and presentations</h2>
 <p>Gooogle decks can easily be embedded using an HTML snippet and requires no special handling on Hakyll’s side. I wrap the standard <code>&lt;iframe&gt;</code> tag in a <code>div</code> tag with the a special class which makes the presentation responsive.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="./#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;responsive&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb13-2"><a href="./#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;iframe</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://docs.google.com/presentation/d/e/</span><span class="er">&lt;</span><span class="st">ID&gt;/embed</span></span>
-<span id="cb13-3"><a href="./#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  ?start=false</span><span class="er">&amp;</span><span class="st">loop=false</span><span class="er">&amp;</span><span class="st">delayms=3000&quot;</span> <span class="er">frameborder</span><span class="ot">=</span><span class="st">&quot;0&quot;</span> <span class="er">width</span><span class="ot">=</span><span class="st">&quot;960&quot;</span> <span class="er">height</span><span class="ot">=</span><span class="st">&quot;569&quot;</span> </span>
-<span id="cb13-4"><a href="./#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  allowfullscreen=</span><span class="st">&quot;true&quot;</span> <span class="er">mozallowfullscreen</span><span class="ot">=</span><span class="st">&quot;true&quot;</span> <span class="er">webkitallowfullscreen</span><span class="ot">=</span><span class="st">&quot;true&quot;</span><span class="kw">&gt;&lt;/iframe&gt;</span></span>
-<span id="cb13-5"><a href="./#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="./#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;responsive&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb13-2"><a href="./#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;https://docs.google.com/presentation/d/e/</span><span class="er">&lt;</span><span class="st">ID&gt;/embed</span></span>
+<span id="cb13-3"><a href="./#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  ?start=false</span><span class="er">&amp;</span><span class="st">loop=false</span><span class="er">&amp;</span><span class="st">delayms=3000&quot;</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">&quot;0&quot;</span><span class="ot"> width</span><span class="op">=</span><span class="st">&quot;960&quot;</span><span class="ot"> height</span><span class="op">=</span><span class="st">&quot;569&quot;</span><span class="ot"> </span></span>
+<span id="cb13-4"><a href="./#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  allowfullscreen</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="ot"> mozallowfullscreen</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="ot"> webkitallowfullscreen</span><span class="op">=</span><span class="st">&quot;true&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb13-5"><a href="./#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="./#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.responsive</span> {</span>
-<span id="cb14-2"><a href="./#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">overflow</span>: <span class="dv">hidden</span><span class="op">;</span></span>
-<span id="cb14-3"><a href="./#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding-bottom</span>:<span class="dv">56.25</span><span class="dt">%</span><span class="op">;</span></span>
-<span id="cb14-4"><a href="./#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span>: <span class="dv">relative</span><span class="op">;</span></span>
-<span id="cb14-5"><a href="./#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">height</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="./#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">overflow</span><span class="ch">:</span> <span class="dv">hidden</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="./#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding-bottom</span><span class="ch">:</span><span class="dv">56.25</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="./#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span><span class="ch">:</span> <span class="dv">relative</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="./#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">height</span><span class="ch">:</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb14-6"><a href="./#cb14-6" aria-hidden="true" tabindex="-1"></a>  iframe {</span>
-<span id="cb14-7"><a href="./#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">left</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-8"><a href="./#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-9"><a href="./#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">height</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
-<span id="cb14-10"><a href="./#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
-<span id="cb14-11"><a href="./#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">position</span>: <span class="dv">absolute</span><span class="op">;</span></span>
+<span id="cb14-7"><a href="./#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">left</span><span class="ch">:</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-8"><a href="./#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">top</span><span class="ch">:</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-9"><a href="./#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">height</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb14-10"><a href="./#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">width</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb14-11"><a href="./#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">position</span><span class="ch">:</span> <span class="dv">absolute</span><span class="op">;</span></span>
 <span id="cb14-12"><a href="./#cb14-12" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-13"><a href="./#cb14-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><a href="https://revealjs.com/">reveal.js</a> – the HTML presentation framework – uses standard HTML tags to define the presentation and supports themes. Enabling reveal.js is achieved by modifying the deck’s base template and adding a few options to the decks metadata.</p>
@@ -268,29 +268,29 @@ becomes
 <span id="cb15-2"><a href="./#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">reveal:</span><span class="co"> true</span></span>
 <span id="cb15-3"><a href="./#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">theme:</span><span class="co"> league</span></span>
 <span id="cb15-4"><a href="./#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="./#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="./#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
 <span id="cb16-2"><a href="./#cb16-2" aria-hidden="true" tabindex="-1"></a>$if(reveal)$</span>
-<span id="cb16-3"><a href="./#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/reveal.js/reset.css&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb16-4"><a href="./#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/reveal.js/reveal.css&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb16-5"><a href="./#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/reveal.js/theme/$theme$.css&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;theme&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-3"><a href="./#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/reset.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb16-4"><a href="./#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/reveal.css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb16-5"><a href="./#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/theme/$theme$.css&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;theme&quot;</span><span class="dt">&gt;</span></span>
 <span id="cb16-6"><a href="./#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-7"><a href="./#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Theme used for syntax highlighted code --&gt;</span></span>
-<span id="cb16-8"><a href="./#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/reveal.js/plugin/highlight/monokai.css&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;highlight-theme&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-8"><a href="./#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/highlight/monokai.css&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;highlight-theme&quot;</span><span class="dt">&gt;</span></span>
 <span id="cb16-9"><a href="./#cb16-9" aria-hidden="true" tabindex="-1"></a>$endif$</span>
-<span id="cb16-10"><a href="./#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb17-1"><a href="./#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb17-2"><a href="./#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;reveal&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb17-3"><a href="./#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;slides&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-10"><a href="./#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb17-1"><a href="./#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb17-2"><a href="./#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;reveal&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb17-3"><a href="./#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;slides&quot;</span><span class="dt">&gt;</span></span>
 <span id="cb17-4"><a href="./#cb17-4" aria-hidden="true" tabindex="-1"></a>      $body$</span>
-<span id="cb17-5"><a href="./#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/div&gt;</span></span>
-<span id="cb17-6"><a href="./#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb17-5"><a href="./#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb17-6"><a href="./#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
 <span id="cb17-7"><a href="./#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="./#cb17-8" aria-hidden="true" tabindex="-1"></a>$if(reveal)$</span>
-<span id="cb17-9"><a href="./#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/reveal.js/reveal.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb17-10"><a href="./#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/reveal.js/plugin/notes/notes.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb17-11"><a href="./#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/reveal.js/plugin/markdown/markdown.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb17-12"><a href="./#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;/reveal.js/plugin/highlight/highlight.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb17-13"><a href="./#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;script&gt;</span></span>
+<span id="cb17-9"><a href="./#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/reveal.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb17-10"><a href="./#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/notes/notes.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb17-11"><a href="./#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/markdown/markdown.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb17-12"><a href="./#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/highlight/highlight.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb17-13"><a href="./#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
 <span id="cb17-14"><a href="./#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// More info about initialization &amp; config:</span></span>
 <span id="cb17-15"><a href="./#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// - https://revealjs.com/initialization/</span></span>
 <span id="cb17-16"><a href="./#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// - https://revealjs.com/config/</span></span>
@@ -300,9 +300,9 @@ becomes
 <span id="cb17-20"><a href="./#cb17-20" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Learn about plugins: https://revealjs.com/plugins/</span></span>
 <span id="cb17-21"><a href="./#cb17-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">plugins</span><span class="op">:</span> [ RevealMarkdown<span class="op">,</span> RevealHighlight<span class="op">,</span> RevealNotes ]</span>
 <span id="cb17-22"><a href="./#cb17-22" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb17-23"><a href="./#cb17-23" aria-hidden="true" tabindex="-1"></a>		<span class="kw">&lt;/script&gt;</span></span>
+<span id="cb17-23"><a href="./#cb17-23" aria-hidden="true" tabindex="-1"></a>		<span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
 <span id="cb17-24"><a href="./#cb17-24" aria-hidden="true" tabindex="-1"></a>$endif$</span>
-<span id="cb17-25"><a href="./#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span></code></pre></div>
+<span id="cb17-25"><a href="./#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span></code></pre></div>
 <h2 data-number="3.4" id="paginating-posts"><span class="header-section-number">3.4</span> Paginating posts</h2>
 <p>Blog posts are paginated by constructing a <code>Paginate</code> object with <code>buildPaginateWith</code> and then creating rules for every page.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="./#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">PageNumber</span> <span class="ot">=</span> <span class="dt">Int</span></span>
@@ -592,10 +592,10 @@ becomes
 <span id="cb29-33"><a href="./#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-34"><a href="./#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="co">-- throwError used within a monadic computation begins exception processing</span></span>
 <span id="cb29-35"><a href="./#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="ot">throwError ::</span> <span class="dt">Monad</span> m, <span class="dt">MonadError</span> e m <span class="op">|</span> m <span class="ot">-&gt;</span> e <span class="ot">=&gt;</span> e <span class="ot">-&gt;</span> m a</span></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>DSL stands for Domain Specific Language. Hakyll is an eDSL, embedded Domain Specific Language, which means that the DSL is defined in the underlying programming languages code as opposed to a completely new language.<a href="./#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>DSL stands for Domain Specific Language. Hakyll is an eDSL, embedded Domain Specific Language, which means that the DSL is defined in the underlying programming languages code as opposed to a completely new language.<a href="./#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
                 </section>

@@ -66,40 +66,58 @@
                 </header>
 
                 <section id="js-article" class="c-article__body">
-<p><span style="line-height: normal;">Það hefur runnið upp fyrir mér síðustu daga að lærdómskúrvan fyrir vefforritun í Haskell er mjög brött. Það er lítið til af skrifuðu efni. <!--more--> Mér sýnist þó eftir þessa rannsóknarvinnu að þrjár leiðir séu helst færar:<br />
+<p><span style="line-height: normal;">Það hefur runnið upp fyrir mér síðustu daga að lærdómskúrvan fyrir vefforritun í Haskell er mjög brött. Það er lítið til af skrifuðu efni.
+<!--more-->
+Mér sýnist þó eftir þessa rannsóknarvinnu að þrjár leiðir séu helst færar:<br />
 </span></p>
 <ol>
+<li><br />
+</li>
 <li><strong>Keyra kóðann sem CGI í vefþjóni</strong><br />
 Kostur: Ekki þarf að þýða Haskell kóðann.<br />
-Galli: Hægvirkt</li>
-<li><strong>Keyra kóðann sem <a href="https://fastcgi-archives.github.io/">FastCGI</a> í vefþjóni</strong><br />
+Galli: Hægvirkt
+<br />
+</li>
+<li><strong>Keyra kóðann sem <a href="https://fastcgi-archives.github.io/" style="color: #cc6600; text-decoration: none;">FastCGI</a> í vefþjóni</strong><br />
 Kostur: Getur keyrt á þekktum vefþjónum eins og Apache og LigHTTP.<br />
-Galli: Þarf að endurræsa vefþjóninn til þess að breytingar taki gildi.</li>
-<li><strong>Keyra kóðann í <a href="http://happs.org/">HAppS</a>, <em>The Haskell Application Server</em></strong><br />
+Galli: Þarf að endurræsa vefþjóninn til þess að breytingar taki gildi.
+<br />
+</li>
+<li><strong>Keyra kóðann í <a href="http://happs.org/" style="color: #cc6600; text-decoration: none;">HAppS</a>, <em>The Haskell Application Server</em></strong><br />
 Kostur: Margir, sjá umfjöllun hér að neðan<br />
-Galli: Nánst engar upplýsingar um HAppS</li>
+Galli: Nánst engar upplýsingar um HAppS
+<br />
+</li>
 </ol>
 <p><br />
-Þar sem ég er á höttunum eftir algjörlega nýrri hugsun (eins og fram kemur í fyrstu færslunni) ákvað ég að velja síðustu leiðina, þ.e. nota HAppS. Ég eyddi um klukkutíma í að horfa á <a href="http://www.bayfp.org/blog/2007/10/16/alex-jacobson-on-happs-videos-slides/">fyrirlestur</a> um HAppS sem Alex Jacobson, höfundur HAppS, hélt í október á síðasta ári. Þar sem ég hef lengi verið í vefforritun og sjálfur með hugmyndir um það hvernig mér finnist hluturnir eiga vera gerðir kom mér skemmtilega á óvart hvað Alex hafði skemmtilega og í raun mjög sambærilega sýn.<br />
+Þar sem ég er á höttunum eftir algjörlega nýrri hugsun (eins og fram kemur í fyrstu færslunni) ákvað ég að velja síðustu leiðina, þ.e. nota HAppS. Ég eyddi um klukkutíma í að horfa á <a href="http://www.bayfp.org/blog/2007/10/16/alex-jacobson-on-happs-videos-slides/" style="color: #cc6600; text-decoration: none;">fyrirlestur</a> um HAppS sem Alex Jacobson, höfundur HAppS, hélt í október á síðasta ári. Þar sem ég hef lengi verið í vefforritun og sjálfur með hugmyndir um það hvernig mér finnist hluturnir eiga vera gerðir kom mér skemmtilega á óvart hvað Alex hafði skemmtilega og í raun mjög sambærilega sýn.<br />
 <br />
 Í venjulegu vefumhverfi, oft nefnt N-laga umhverfi, skiptist umhverfið venjulega í þrjú lög:<br />
 </p>
 <ol>
+<li><br />
+</li>
 <li><strong>Gagnamódelslag</strong><br />
-Gögn eru í flestum tilfellum geymd í gagnagrunnum en til þess að gögnin séu nothæf þarf að módela gögnin í forritunarmálinu sem notað er.</li>
+Gögn eru í flestum tilfellum geymd í gagnagrunnum en til þess að gögnin séu nothæf þarf að módela gögnin í forritunarmálinu sem notað er.
+<br />
+</li>
 <li><strong>Aðgerðalag</strong><br />
-Hér er virkni vefjarins ákveðin.</li>
+Hér er virkni vefjarins ákveðin.
+<br />
+</li>
 <li><strong>Framsetningarlag</strong><br />
-Þegar aðgerðarlagið er búið að vinna með gagnamódelin eru þau áframsend í þetta lag. Venjulega er það hér sem blanda af forritunarmáli og HTMLi skilar niðurstöðunum til vafrans.</li>
+Þegar aðgerðarlagið er búið að vinna með gagnamódelin eru þau áframsend í þetta lag. Venjulega er það hér sem blanda af forritunarmáli og HTMLi skilar niðurstöðunum til vafrans.
+<br />
+</li>
 </ol>
 <p><br />
 Gallinn við þessa uppsetningu er oft á tíðum sá að mikil vinna er fólgin í því að koma gögnunum úr gagnagrunninum og í strúktúr sem nýtist í forritunarmálinu. Einnig getur verið erfitt að skala þetta umhverfi. Ég er því opinn fyrir þeim aðferðum sem HAppS leggur til:<br />
 <br />
-Gögnin eru módeleruð frá upphafi í Haskell og litið er á vefinn sem stöðuvél. Staðan hverju sinni er geymd í minni en skrifuð út í svokallaða logga. Þannig getur þjónninn spólað í gegnum alla loggana til þess að flytja kerfið í síðustu stöðu ef endurræsa þarf þjóninn. Þetta hefur verið þekkt sem <a href="http://www.prevayler.org">Prevayler</a>-mynstrið. Til þess að koma í veg fyrir að þjónninn þurfi að lesa loggana frá örófi alda skrifar hann út millistöður <em>(e. Check point)</em> með reglulegu millibili. Eingöngu þarf þá að lesa loggana frá þeirri stöðu. Í fyrirlestrinum kemur Alex líka inn á nýjan fídus sem hleður viðeigandi hluta stöðuvélarinnar í minni ef hún kemst ekki öll fyrir í minninu - þetta þarf að gera handvirkt í dag.<br />
+Gögnin eru módeleruð frá upphafi í Haskell og litið er á vefinn sem stöðuvél. Staðan hverju sinni er geymd í minni en skrifuð út í svokallaða logga. Þannig getur þjónninn spólað í gegnum alla loggana til þess að flytja kerfið í síðustu stöðu ef endurræsa þarf þjóninn. Þetta hefur verið þekkt sem <a href="http://www.prevayler.org" style="color: #cc6600; text-decoration: none;">Prevayler</a>-mynstrið. Til þess að koma í veg fyrir að þjónninn þurfi að lesa loggana frá örófi alda skrifar hann út millistöður <em>(e. Check point)</em> með reglulegu millibili. Eingöngu þarf þá að lesa loggana frá þeirri stöðu. Í fyrirlestrinum kemur Alex líka inn á nýjan fídus sem hleður viðeigandi hluta stöðuvélarinnar í minni ef hún kemst ekki öll fyrir í minninu - þetta þarf að gera handvirkt í dag.<br />
 <br />
 Prevayler-mynstrið gerir HAppS kleyft að gera ýmsa sniðuga hluti, eins og keyra klasa af HAppS-þjónum og samræma stöðu á milli þeirra. Þannig er hægt að dreifa vinnslu á marga þjóna til þess að minnka álag á vélbúnað og koma í veg fyrir að vefir fari niður ef vélbúnaður deyr. Þetta þýðir líka að þegar uppfæra þarf hugbúnaðinn verða notendur ekki varir við neinn niðritíma. Annað sem mér fannst áhugavert við uppfærslur hugbúnaðarins og að koma þeim í rekstur er að þegar hugbúnaðurinn er þýddur verður til ein keyrsluskrá sem eingöngu þarf að afrita yfir á þá þjóna sem eiga að taka þátt í verkinu. Þjónarnir sjá alveg um að hlaða inn nýju útgáfunni.<br />
 <br />
-Tegundakerfið <em>(e. Type system)</em> í Haskell er gríðarlega öflugt og mjög auðvelt og er það t.d. einsmóta XML. HAppS sér því um að flytja gögnin yfir í XML sjálfvirkt og því þarf eingöngu að umbreyta XML-inu, með hjálp <a href="http://www.w3.org/Style/XSL/">XSL</a>, yfir í annað birtingaform.<br />
+Tegundakerfið <em>(e. Type system)</em> í Haskell er gríðarlega öflugt og mjög auðvelt og er það t.d. einsmóta XML. HAppS sér því um að flytja gögnin yfir í XML sjálfvirkt og því þarf eingöngu að umbreyta XML-inu, með hjálp <a href="http://www.w3.org/Style/XSL/" style="color: #cc6600; text-decoration: none;">XSL</a>, yfir í annað birtingaform.<br />
 <br />
 Mér finnst HAppS spennandi og ekki síður í því ljósi að HAppS virðist vera Haskell-leiðin í vefforritun. Hins vegar er ég hræddur um að þetta geti orðið erfið fæðing vegna lítillar skjölunar. Mér skilst að HAppS-liðið hangi á IRC-inu svo ég ætla að reyna að fá vísbendingar um hvernig er best að læra á græjuna.</span></p>
 </p>
