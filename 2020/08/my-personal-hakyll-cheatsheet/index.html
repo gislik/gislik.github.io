@@ -62,7 +62,7 @@
                         <time datetime="August 20, 2020">August 20, 2020</time>
                     </p>
                     <p class="c-article__meta">
-                        13 min read
+                        8 min read
                     </p>
                 </header>
 
@@ -97,37 +97,14 @@
 <h1 data-number="2" id="website-rules"><span class="header-section-number">2</span> Website rules</h1>
 <h2 data-number="2.1" id="matching-clause-routes-and-compilers"><span class="header-section-number">2.1</span> Matching clause, routes and compilers</h2>
 <p>Writing rules in the DSL<a href="./#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is simple enough. A rule needs three things to be valid; a matching clause for the source file, a route for the compiled output and the compiler itself which is responsible for the transformation between the input and the output.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="./#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- static css</span></span>
-<span id="cb1-2"><a href="./#cb1-2" aria-hidden="true" tabindex="-1"></a>match <span class="st">&quot;css/**.css&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb1-3"><a href="./#cb1-3" aria-hidden="true" tabindex="-1"></a>   route   <span class="op">$</span> idRoute</span>
-<span id="cb1-4"><a href="./#cb1-4" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> compressCssCompiler</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>We match all files with the <code>.css</code> extension in the <code>css</code> directory and its subdirectories (had we used * only files in the <code>css</code> directory would match). The <code>idRoute</code> preserves the filename as is but other routes may change the e.g. the extension or something more complex. For example we want to match files with <code>.scss</code> extension, compile them and pipe the compressed results to a file with the <code>.css</code> extension for browser compatibility.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="./#cb2-1" aria-hidden="true" tabindex="-1"></a>match (<span class="st">&quot;css/**.scss&quot;</span> <span class="op">.&amp;&amp;.</span> complement <span class="st">&quot;css/**_*.scss&quot;</span>) <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb2-2"><a href="./#cb2-2" aria-hidden="true" tabindex="-1"></a>   route   <span class="op">$</span> setExtension <span class="st">&quot;css&quot;</span></span>
-<span id="cb2-3"><a href="./#cb2-3" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> sassCompiler</span>
-<span id="cb2-4"><a href="./#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> <span class="fu">return</span> <span class="op">.</span> <span class="fu">fmap</span> compressCss</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>In some cases instead of a source file to match we just create an output directly. This is the case with <code>index.html</code> which is dynamically generated from from the latest blog posts.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="./#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- index</span></span>
-<span id="cb3-2"><a href="./#cb3-2" aria-hidden="true" tabindex="-1"></a>create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb3-3"><a href="./#cb3-3" aria-hidden="true" tabindex="-1"></a>   route   <span class="op">$</span> idRoute</span>
-<span id="cb3-4"><a href="./#cb3-4" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> makeItem <span class="st">&quot;&quot;</span></span>
-<span id="cb3-5"><a href="./#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx <span class="dv">1</span> pages categories tags)</span>
-<span id="cb3-6"><a href="./#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx </span>
-<span id="cb3-7"><a href="./#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb3-8"><a href="./#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> relativizeUrls</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 data-number="2.2" id="templates-and-their-contexts"><span class="header-section-number">2.2</span> Templates and their contexts</h2>
 <p>Optionally the compiler may load a template to the input and interpolate variables from a context. We do so by chaining multiple compilers together into a more feature rich compiler. The output of a previous compiler is interpolated into the $body$ variable of the template. Other variables are made available to the template by defining them in the context. Before templates can be loaded they need to be compiled using the <code>templateCompiler</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="./#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- static pages</span></span>
-<span id="cb4-2"><a href="./#cb4-2" aria-hidden="true" tabindex="-1"></a>match <span class="st">&quot;*.md&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb4-3"><a href="./#cb4-3" aria-hidden="true" tabindex="-1"></a>   route   <span class="op">$</span> pageRoute</span>
-<span id="cb4-4"><a href="./#cb4-4" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> pandocCompiler</span>
-<span id="cb4-5"><a href="./#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/page-detail.html&quot;</span> defaultCtx</span>
-<span id="cb4-6"><a href="./#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx</span>
-<span id="cb4-7"><a href="./#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb4-8"><a href="./#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="./#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- templates</span></span>
-<span id="cb4-10"><a href="./#cb4-10" aria-hidden="true" tabindex="-1"></a>match <span class="st">&quot;templates/*.html&quot;</span> <span class="op">$</span>  <span class="co">-- note that the order does not matter</span></span>
-<span id="cb4-11"><a href="./#cb4-11" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> templateCompiler</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>Contexts are monoids and can therefore be easily combined to create bigger contexts where the earlier definition of a non-empty (<code>mempty</code>) field takes precedence.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="./#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">pageTitleField ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> <span class="dt">String</span></span>
 <span id="cb5-2"><a href="./#cb5-2" aria-hidden="true" tabindex="-1"></a>pageTitleField key <span class="ot">=</span> </span>
@@ -138,14 +115,7 @@
 <span id="cb5-7"><a href="./#cb5-7" aria-hidden="true" tabindex="-1"></a>      alias x <span class="op">|</span> x <span class="op">==</span> key <span class="ot">=</span> <span class="st">&quot;title&quot;</span></span>
 <span id="cb5-8"><a href="./#cb5-8" aria-hidden="true" tabindex="-1"></a>      alias x            <span class="ot">=</span> x</span></code></pre></div>
 <p>A special case of the string context is the function context which defines a variable which value is a function which can be called in the template.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="./#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">header</span><span class="dt">&gt;</span></span>
-<span id="cb6-2"><a href="./#cb6-2" aria-hidden="true" tabindex="-1"></a>  $partial(&quot;templates/header.html&quot;)$</span>
-<span id="cb6-3"><a href="./#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">header</span><span class="dt">&gt;</span></span>
-<span id="cb6-4"><a href="./#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="./#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb6-6"><a href="./#cb6-6" aria-hidden="true" tabindex="-1"></a>  $countwords(body)$</span>
-<span id="cb6-7"><a href="./#cb6-7" aria-hidden="true" tabindex="-1"></a>  $sum(1,2,3)$</span>
-<span id="cb6-8"><a href="./#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"></code></pre></div>
 <h2 data-number="2.3" id="metadata-flow-control-and-list-iteration"><span class="header-section-number">2.3</span> Metadata, flow control and list iteration</h2>
 <p>Metadata can be placed in the front matter of the markdown formatted as <a href="https://yaml.org/">YAML</a>. The metadata can be made available both to the compiler and to the template in case the <code>metadataField :: Context a</code> is applied to the template. Tags can eiter be comma separated or as a valid YAML list.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="./#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -160,20 +130,7 @@
 <span id="cb7-10"><a href="./#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="./#cb7-11" aria-hidden="true" tabindex="-1"></a>This is the blog body</span></code></pre></div>
 <p>Special function variables are used to define conditional branches to display and iterate over items. The variable names used within the $for(blogs)$ loop are defined in the <code>blog</code> list field. Everything between $sep$ and $endfor$ will be used as a separator between items, i.e. it is not included for the last element.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="./#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;blog-list&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb8-2"><a href="./#cb8-2" aria-hidden="true" tabindex="-1"></a>$for(blogs)$</span>
-<span id="cb8-3"><a href="./#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;blog-item&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb8-4"><a href="./#cb8-4" aria-hidden="true" tabindex="-1"></a>    $title$</span>
-<span id="cb8-5"><a href="./#cb8-5" aria-hidden="true" tabindex="-1"></a>  $if(blog.author)$</span>
-<span id="cb8-6"><a href="./#cb8-6" aria-hidden="true" tabindex="-1"></a>    $blog.author$</span>
-<span id="cb8-7"><a href="./#cb8-7" aria-hidden="true" tabindex="-1"></a>  $else$ </span>
-<span id="cb8-8"><a href="./#cb8-8" aria-hidden="true" tabindex="-1"></a>    Unknown author</span>
-<span id="cb8-9"><a href="./#cb8-9" aria-hidden="true" tabindex="-1"></a>  $endif$</span>
-<span id="cb8-10"><a href="./#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">gdiv</span><span class="dt">&gt;</span></span>
-<span id="cb8-11"><a href="./#cb8-11" aria-hidden="true" tabindex="-1"></a>  $sep$</span>
-<span id="cb8-12"><a href="./#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">hr</span><span class="ot"> g</span><span class="dt">&gt;</span></span>
-<span id="cb8-13"><a href="./#cb8-13" aria-hidden="true" tabindex="-1"></a>$endfor$</span>
-<span id="cb8-14"><a href="./#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"></code></pre></div>
 <h1 data-number="3" id="advanced-features"><span class="header-section-number">3</span> Advanced features</h1>
 <p>Using the <code>pandocCompilerWith</code> some options can be passed in which affect the behavior of Pandoc. In addition extensions can be enabled which unlock additional features.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="./#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">pandocCompilerWith ::</span> <span class="dt">ReaderOptions</span> <span class="ot">-&gt;</span> <span class="dt">WriterOptions</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
@@ -187,26 +144,7 @@
 <span id="cb9-9"><a href="./#cb9-9" aria-hidden="true" tabindex="-1"></a>      defaultOptions <span class="ot">=</span> defaultHakyllWriterOptions</span>
 <span id="cb9-10"><a href="./#cb9-10" aria-hidden="true" tabindex="-1"></a>      blogOptions <span class="ot">=</span> <span class="fu">const</span> blogWriterOptions</span></code></pre></div>
 <h2 data-number="3.1" id="auto-generated-table-of-contents"><span class="header-section-number">3.1</span> Auto-generated table of contents</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="./#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- blogWriterOptions configures pandoc to include a table of contents</span></span>
-<span id="cb10-2"><a href="./#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- and uses MathJax to render math.</span></span>
-<span id="cb10-3"><a href="./#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">blogWriterOptions ::</span> <span class="dt">WriterOptions</span></span>
-<span id="cb10-4"><a href="./#cb10-4" aria-hidden="true" tabindex="-1"></a>blogWriterOptions <span class="ot">=</span> </span>
-<span id="cb10-5"><a href="./#cb10-5" aria-hidden="true" tabindex="-1"></a>   defaultHakyllWriterOptions</span>
-<span id="cb10-6"><a href="./#cb10-6" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb10-7"><a href="./#cb10-7" aria-hidden="true" tabindex="-1"></a>        writerHTMLMathMethod <span class="ot">=</span> <span class="dt">MathJax</span> <span class="st">&quot;&quot;</span></span>
-<span id="cb10-8"><a href="./#cb10-8" aria-hidden="true" tabindex="-1"></a>      , writerTableOfContents <span class="ot">=</span> <span class="dt">True</span></span>
-<span id="cb10-9"><a href="./#cb10-9" aria-hidden="true" tabindex="-1"></a>      , writerNumberSections  <span class="ot">=</span> <span class="dt">True</span></span>
-<span id="cb10-10"><a href="./#cb10-10" aria-hidden="true" tabindex="-1"></a>      , writerTOCDepth        <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb10-11"><a href="./#cb10-11" aria-hidden="true" tabindex="-1"></a>      , writerTemplate        <span class="ot">=</span> </span>
-<span id="cb10-12"><a href="./#cb10-12" aria-hidden="true" tabindex="-1"></a>         <span class="kw">let</span></span>
-<span id="cb10-13"><a href="./#cb10-13" aria-hidden="true" tabindex="-1"></a>            toc <span class="ot">=</span> <span class="st">&quot;$toc$&quot;</span><span class="ot"> ::</span> <span class="dt">String</span></span>
-<span id="cb10-14"><a href="./#cb10-14" aria-hidden="true" tabindex="-1"></a>            body <span class="ot">=</span> <span class="st">&quot;$body$&quot;</span><span class="ot"> ::</span> <span class="dt">String</span></span>
-<span id="cb10-15"><a href="./#cb10-15" aria-hidden="true" tabindex="-1"></a>         <span class="kw">in</span></span>
-<span id="cb10-16"><a href="./#cb10-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Just</span> <span class="op">.</span> renderHtml <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb10-17"><a href="./#cb10-17" aria-hidden="true" tabindex="-1"></a>               H.div <span class="op">!</span> class_ <span class="st">&quot;toc&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb10-18"><a href="./#cb10-18" aria-hidden="true" tabindex="-1"></a>                  toHtml toc</span>
-<span id="cb10-19"><a href="./#cb10-19" aria-hidden="true" tabindex="-1"></a>               toHtml body</span>
-<span id="cb10-20"><a href="./#cb10-20" aria-hidden="true" tabindex="-1"></a>      }</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 data-number="3.2" id="katex-to-render-latex-math"><span class="header-section-number">3.2</span> <span class="math inline">\(\KaTeX\ \)</span> to render <span class="math inline">\(\LaTeX\)</span> math</h2>
 <p>Pandoc can transform math to MathJax when configured correctly. KaTeX is able to render the output by embedding the javascript and CSS.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="./#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/katex/katex.min.css&quot;</span><span class="dt">&gt;</span></span>
@@ -228,21 +166,7 @@ becomes
 </p>
 <p><span class="math display">\[ \ln x = \int_{-\infty}^x \frac 1 y \, dy  \]</span></p>
 <p>Writing <code>$x \equiv a \pmod{b}$</code> or <code>\( x \equiv a \pmod{b} \)</code> prdouces <span class="math inline">\(x \equiv a \pmod{b}\)</span>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="./#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">blogReaderOptions ::</span> <span class="dt">ReaderOptions</span></span>
-<span id="cb12-2"><a href="./#cb12-2" aria-hidden="true" tabindex="-1"></a>blogReaderOptions <span class="ot">=</span> </span>
-<span id="cb12-3"><a href="./#cb12-3" aria-hidden="true" tabindex="-1"></a>   defaultHakyllReaderOptions</span>
-<span id="cb12-4"><a href="./#cb12-4" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb12-5"><a href="./#cb12-5" aria-hidden="true" tabindex="-1"></a>         readerExtensions <span class="ot">=</span> </span>
-<span id="cb12-6"><a href="./#cb12-6" aria-hidden="true" tabindex="-1"></a>            (readerExtensions defaultHakyllReaderOptions) <span class="op">&lt;&gt;</span> extensionsFromList</span>
-<span id="cb12-7"><a href="./#cb12-7" aria-hidden="true" tabindex="-1"></a>               [ </span>
-<span id="cb12-8"><a href="./#cb12-8" aria-hidden="true" tabindex="-1"></a>                 <span class="dt">Ext_tex_math_single_backslash</span>  <span class="co">-- TeX math btw (..) [..]</span></span>
-<span id="cb12-9"><a href="./#cb12-9" aria-hidden="true" tabindex="-1"></a>               , <span class="dt">Ext_tex_math_double_backslash</span>  <span class="co">-- TeX math btw \(..\) \[..\]</span></span>
-<span id="cb12-10"><a href="./#cb12-10" aria-hidden="true" tabindex="-1"></a>               , <span class="dt">Ext_tex_math_dollars</span>           <span class="co">-- TeX math between $..$ or $$..$$</span></span>
-<span id="cb12-11"><a href="./#cb12-11" aria-hidden="true" tabindex="-1"></a>               , <span class="dt">Ext_latex_macros</span>               <span class="co">-- Parse LaTeX macro definitions (for math only)</span></span>
-<span id="cb12-12"><a href="./#cb12-12" aria-hidden="true" tabindex="-1"></a>               , <span class="dt">Ext_inline_code_attributes</span>     <span class="co">-- Ext_inline_code_attributes</span></span>
-<span id="cb12-13"><a href="./#cb12-13" aria-hidden="true" tabindex="-1"></a>               , <span class="dt">Ext_abbreviations</span>              <span class="co">-- PHP markdown extra abbreviation definitions</span></span>
-<span id="cb12-14"><a href="./#cb12-14" aria-hidden="true" tabindex="-1"></a>               ]</span>
-<span id="cb12-15"><a href="./#cb12-15" aria-hidden="true" tabindex="-1"></a>      }</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 data-number="3.3" id="decks-and-presentations"><span class="header-section-number">3.3</span> Decks and presentations</h2>
 <p>Gooogle decks can easily be embedded using an HTML snippet and requires no special handling on Hakyll’s side. I wrap the standard <code>&lt;iframe&gt;</code> tag in a <code>div</code> tag with the a special class which makes the presentation responsive.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="./#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;responsive&quot;</span><span class="dt">&gt;</span></span>
@@ -268,41 +192,8 @@ becomes
 <span id="cb15-2"><a href="./#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">reveal:</span><span class="co"> true</span></span>
 <span id="cb15-3"><a href="./#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">theme:</span><span class="co"> league</span></span>
 <span id="cb15-4"><a href="./#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="./#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
-<span id="cb16-2"><a href="./#cb16-2" aria-hidden="true" tabindex="-1"></a>$if(reveal)$</span>
-<span id="cb16-3"><a href="./#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/reset.css&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb16-4"><a href="./#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/reveal.css&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb16-5"><a href="./#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/theme/$theme$.css&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;theme&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb16-6"><a href="./#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="./#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Theme used for syntax highlighted code --&gt;</span></span>
-<span id="cb16-8"><a href="./#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/highlight/monokai.css&quot;</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;highlight-theme&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb16-9"><a href="./#cb16-9" aria-hidden="true" tabindex="-1"></a>$endif$</span>
-<span id="cb16-10"><a href="./#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb17-1"><a href="./#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
-<span id="cb17-2"><a href="./#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;reveal&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb17-3"><a href="./#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;slides&quot;</span><span class="dt">&gt;</span></span>
-<span id="cb17-4"><a href="./#cb17-4" aria-hidden="true" tabindex="-1"></a>      $body$</span>
-<span id="cb17-5"><a href="./#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb17-6"><a href="./#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb17-7"><a href="./#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="./#cb17-8" aria-hidden="true" tabindex="-1"></a>$if(reveal)$</span>
-<span id="cb17-9"><a href="./#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/reveal.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-10"><a href="./#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/notes/notes.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-11"><a href="./#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/markdown/markdown.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-12"><a href="./#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;/reveal.js/plugin/highlight/highlight.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-13"><a href="./#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-14"><a href="./#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// More info about initialization &amp; config:</span></span>
-<span id="cb17-15"><a href="./#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// - https://revealjs.com/initialization/</span></span>
-<span id="cb17-16"><a href="./#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// - https://revealjs.com/config/</span></span>
-<span id="cb17-17"><a href="./#cb17-17" aria-hidden="true" tabindex="-1"></a>    Reveal<span class="op">.</span><span class="fu">initialize</span>({</span>
-<span id="cb17-18"><a href="./#cb17-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">hash</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb17-19"><a href="./#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="./#cb17-20" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Learn about plugins: https://revealjs.com/plugins/</span></span>
-<span id="cb17-21"><a href="./#cb17-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">plugins</span><span class="op">:</span> [ RevealMarkdown<span class="op">,</span> RevealHighlight<span class="op">,</span> RevealNotes ]</span>
-<span id="cb17-22"><a href="./#cb17-22" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb17-23"><a href="./#cb17-23" aria-hidden="true" tabindex="-1"></a>		<span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
-<span id="cb17-24"><a href="./#cb17-24" aria-hidden="true" tabindex="-1"></a>$endif$</span>
-<span id="cb17-25"><a href="./#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode html"><code class="sourceCode html"></code></pre></div>
 <h2 data-number="3.4" id="paginating-posts"><span class="header-section-number">3.4</span> Paginating posts</h2>
 <p>Blog posts are paginated by constructing a <code>Paginate</code> object with <code>buildPaginateWith</code> and then creating rules for every page.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="./#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">PageNumber</span> <span class="ot">=</span> <span class="dt">Int</span></span>
@@ -319,50 +210,9 @@ becomes
 <span id="cb18-12"><a href="./#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">-&gt;</span> <span class="dt">Pattern</span>                             <span class="co">-- items to paginate</span></span>
 <span id="cb18-13"><a href="./#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="ot">-&gt;</span> (<span class="dt">PageNumber</span> <span class="ot">-&gt;</span> <span class="dt">Identifier</span>)          <span class="co">-- identifiers for the pages</span></span>
 <span id="cb18-14"><a href="./#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="ot">-&gt;</span> m <span class="dt">Paginate</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="./#cb19-1" aria-hidden="true" tabindex="-1"></a>hakyll <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb19-2"><a href="./#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="./#cb19-3" aria-hidden="true" tabindex="-1"></a>   pages <span class="ot">&lt;-</span> buildPages visiblePattern (\i <span class="ot">-&gt;</span> fromCapture <span class="st">&quot;*/index.html&quot;</span> (<span class="fu">show</span> i))</span>
-<span id="cb19-4"><a href="./#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="./#cb19-5" aria-hidden="true" tabindex="-1"></a>   paginateRules pages <span class="op">$</span> \i _ <span class="ot">-&gt;</span> <span class="kw">do</span> <span class="co">-- i is the page number</span></span>
-<span id="cb19-6"><a href="./#cb19-6" aria-hidden="true" tabindex="-1"></a>      route   <span class="op">$</span> idRoute</span>
-<span id="cb19-7"><a href="./#cb19-7" aria-hidden="true" tabindex="-1"></a>      compile <span class="op">$</span> makeItem (<span class="fu">show</span> i)</span>
-<span id="cb19-8"><a href="./#cb19-8" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx i pages categories tags)</span>
-<span id="cb19-9"><a href="./#cb19-9" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx</span>
-<span id="cb19-10"><a href="./#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb19-11"><a href="./#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb19-12"><a href="./#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="./#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="ot">buildPages ::</span> (<span class="dt">MonadMetadata</span> m, <span class="dt">MonadFail</span> m) </span>
-<span id="cb19-14"><a href="./#cb19-14" aria-hidden="true" tabindex="-1"></a>   <span class="ot">=&gt;</span> <span class="dt">Pattern</span> <span class="ot">-&gt;</span> (<span class="dt">PageNumber</span> <span class="ot">-&gt;</span> <span class="dt">Identifier</span>) <span class="ot">-&gt;</span> m <span class="dt">Paginate</span></span>
-<span id="cb19-15"><a href="./#cb19-15" aria-hidden="true" tabindex="-1"></a>buildPages <span class="kw">pattern</span> makeId <span class="ot">=</span> </span>
-<span id="cb19-16"><a href="./#cb19-16" aria-hidden="true" tabindex="-1"></a>   buildPaginateWith</span>
-<span id="cb19-17"><a href="./#cb19-17" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">return</span> <span class="op">.</span> paginateEvery blogPerPage <span class="op">&lt;=&lt;</span> sortRecentFirst) </span>
-<span id="cb19-18"><a href="./#cb19-18" aria-hidden="true" tabindex="-1"></a>      <span class="kw">pattern</span> </span>
-<span id="cb19-19"><a href="./#cb19-19" aria-hidden="true" tabindex="-1"></a>      makeId</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>To access pages pagination links are added to the relevant context. <code>paginateContext</code> returns a default paginate context which provides standard pagination fields but I like to alias those fields to give them a bit more friendly names.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="./#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- paginateContext returns a default pagin</span></span>
-<span id="cb20-2"><a href="./#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ot">paginateContext ::</span> <span class="dt">Paginate</span> <span class="ot">-&gt;</span> <span class="dt">PageNumber</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> a</span>
-<span id="cb20-3"><a href="./#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="./#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ot">blogCtx ::</span> <span class="dt">PageNumber</span> <span class="ot">-&gt;</span> <span class="dt">Paginate</span> <span class="ot">-&gt;</span> <span class="dt">Tags</span> <span class="ot">-&gt;</span> <span class="dt">Tags</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> <span class="dt">String</span></span>
-<span id="cb20-5"><a href="./#cb20-5" aria-hidden="true" tabindex="-1"></a>blogCtx i pages categories tags <span class="ot">=</span> </span>
-<span id="cb20-6"><a href="./#cb20-6" aria-hidden="true" tabindex="-1"></a>      listField <span class="st">&quot;blogs&quot;</span> (blogDetailCtx categories tags) (loadBlogs pat) <span class="op">&lt;&gt;</span></span>
-<span id="cb20-7"><a href="./#cb20-7" aria-hidden="true" tabindex="-1"></a>      categoryListField <span class="st">&quot;categories&quot;</span> categories                         <span class="op">&lt;&gt;</span></span>
-<span id="cb20-8"><a href="./#cb20-8" aria-hidden="true" tabindex="-1"></a>      tagsListField <span class="st">&quot;tags&quot;</span> tags                                         <span class="op">&lt;&gt;</span></span>
-<span id="cb20-9"><a href="./#cb20-9" aria-hidden="true" tabindex="-1"></a>      pagesField i                                                      <span class="op">&lt;&gt;</span> <span class="co">--page links</span></span>
-<span id="cb20-10"><a href="./#cb20-10" aria-hidden="true" tabindex="-1"></a>      defaultCtx</span>
-<span id="cb20-11"><a href="./#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
-<span id="cb20-12"><a href="./#cb20-12" aria-hidden="true" tabindex="-1"></a>      pat <span class="ot">=</span> fromList <span class="op">.</span> fromMaybe [] <span class="op">.</span> M.lookup i <span class="op">.</span> paginateMap <span class="op">$</span> pages</span>
-<span id="cb20-13"><a href="./#cb20-13" aria-hidden="true" tabindex="-1"></a>      pagesField <span class="ot">=</span> aliasContext alias <span class="op">.</span> paginateContext pages <span class="co">-- alias standard fields</span></span>
-<span id="cb20-14"><a href="./#cb20-14" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.first.number&quot;</span>    <span class="ot">=</span> <span class="st">&quot;firstPageNum&quot;</span></span>
-<span id="cb20-15"><a href="./#cb20-15" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.first.url&quot;</span>       <span class="ot">=</span> <span class="st">&quot;firstPageUrl&quot;</span></span>
-<span id="cb20-16"><a href="./#cb20-16" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.next.number&quot;</span>     <span class="ot">=</span> <span class="st">&quot;nextPageNum&quot;</span></span>
-<span id="cb20-17"><a href="./#cb20-17" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.next.url&quot;</span>        <span class="ot">=</span> <span class="st">&quot;nextPageUrl&quot;</span></span>
-<span id="cb20-18"><a href="./#cb20-18" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.previous.number&quot;</span> <span class="ot">=</span> <span class="st">&quot;previousPageNum&quot;</span></span>
-<span id="cb20-19"><a href="./#cb20-19" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.previous.url&quot;</span>    <span class="ot">=</span> <span class="st">&quot;previousPageUrl&quot;</span></span>
-<span id="cb20-20"><a href="./#cb20-20" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.last.number&quot;</span>     <span class="ot">=</span> <span class="st">&quot;lastPageNum&quot;</span></span>
-<span id="cb20-21"><a href="./#cb20-21" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.last.url&quot;</span>        <span class="ot">=</span> <span class="st">&quot;lastPageUrl&quot;</span></span>
-<span id="cb20-22"><a href="./#cb20-22" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.current.number&quot;</span>  <span class="ot">=</span> <span class="st">&quot;currentPageNum&quot;</span></span>
-<span id="cb20-23"><a href="./#cb20-23" aria-hidden="true" tabindex="-1"></a>      alias <span class="st">&quot;pages.count&quot;</span>           <span class="ot">=</span> <span class="st">&quot;numPages&quot;</span></span>
-<span id="cb20-24"><a href="./#cb20-24" aria-hidden="true" tabindex="-1"></a>      alias x                       <span class="ot">=</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 data-number="3.5" id="support-for-tags-and-categories"><span class="header-section-number">3.5</span> Support for tags and categories</h2>
 <p>Tags are supported in a similar manner to pagination. The <code>Tags</code> object is constructed with either <code>buildTags</code> or <code>buildTagsWith</code>. Hakyll provides <a href="https://www.stackage.org/haddock/lts-16.10/hakyll-4.13.4.0/Hakyll-Web-Tags.html">functions</a> to sort tags, render them and adding to a context. Rules for each tag must be created <code>using tagsRules</code> in order for tags to work.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="./#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Tags</span> <span class="ot">=</span> <span class="dt">Tags</span></span>
@@ -378,61 +228,9 @@ becomes
 <span id="cb21-11"><a href="./#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- getTags returns the tag field from the metadata as a list of strings</span></span>
 <span id="cb21-12"><a href="./#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- the field value can either be tags separated by a comma or a valid YAML list</span></span>
 <span id="cb21-13"><a href="./#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="ot">getTags ::</span> <span class="dt">MonadMetadata</span> m <span class="ot">=&gt;</span> <span class="dt">Identifier</span> <span class="ot">-&gt;</span> m [<span class="dt">String</span>]</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="./#cb22-1" aria-hidden="true" tabindex="-1"></a>hakyll <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb22-2"><a href="./#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="./#cb22-3" aria-hidden="true" tabindex="-1"></a>   tags <span class="ot">&lt;-</span> buildTags visiblePattern (fromCapture <span class="st">&quot;tags/*/index.html&quot;</span>)</span>
-<span id="cb22-4"><a href="./#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="./#cb22-5" aria-hidden="true" tabindex="-1"></a>   <span class="co">-- index</span></span>
-<span id="cb22-6"><a href="./#cb22-6" aria-hidden="true" tabindex="-1"></a>   create [<span class="st">&quot;index.html&quot;</span>] <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb22-7"><a href="./#cb22-7" aria-hidden="true" tabindex="-1"></a>      route   <span class="op">$</span> idRoute</span>
-<span id="cb22-8"><a href="./#cb22-8" aria-hidden="true" tabindex="-1"></a>      compile <span class="op">$</span> makeItem <span class="st">&quot;&quot;</span></span>
-<span id="cb22-9"><a href="./#cb22-9" aria-hidden="true" tabindex="-1"></a>         <span class="co">-- tags passed to blogCtx</span></span>
-<span id="cb22-10"><a href="./#cb22-10" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx <span class="dv">1</span> pages categories tags)</span>
-<span id="cb22-11"><a href="./#cb22-11" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx </span>
-<span id="cb22-12"><a href="./#cb22-12" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb22-13"><a href="./#cb22-13" aria-hidden="true" tabindex="-1"></a>         <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb22-14"><a href="./#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-15"><a href="./#cb22-15" aria-hidden="true" tabindex="-1"></a>      tagsRules tags <span class="op">$</span> \tag <span class="kw">pattern</span> <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb22-16"><a href="./#cb22-16" aria-hidden="true" tabindex="-1"></a>         tagPages <span class="ot">&lt;-</span> buildPages <span class="kw">pattern</span> (\i <span class="ot">-&gt;</span> fromCaptures <span class="st">&quot;tags/*/*/index.html&quot;</span> [tag, <span class="fu">show</span> i])</span>
-<span id="cb22-17"><a href="./#cb22-17" aria-hidden="true" tabindex="-1"></a>         route   <span class="op">$</span> idRoute</span>
-<span id="cb22-18"><a href="./#cb22-18" aria-hidden="true" tabindex="-1"></a>         compile <span class="op">$</span> makeItem tag</span>
-<span id="cb22-19"><a href="./#cb22-19" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx <span class="dv">1</span> tagPages categories tags)</span>
-<span id="cb22-20"><a href="./#cb22-20" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx</span>
-<span id="cb22-21"><a href="./#cb22-21" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb22-22"><a href="./#cb22-22" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb22-23"><a href="./#cb22-23" aria-hidden="true" tabindex="-1"></a>         paginateRules tagPages <span class="op">$</span> \i _ <span class="ot">-&gt;</span> <span class="kw">do</span> <span class="co">-- blog tags pages (i is page within tag)</span></span>
-<span id="cb22-24"><a href="./#cb22-24" aria-hidden="true" tabindex="-1"></a>            route idRoute</span>
-<span id="cb22-25"><a href="./#cb22-25" aria-hidden="true" tabindex="-1"></a>            compile <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb22-26"><a href="./#cb22-26" aria-hidden="true" tabindex="-1"></a>               makeItem tag</span>
-<span id="cb22-27"><a href="./#cb22-27" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-list.html&quot;</span> (blogCtx i tagPages categories tags)</span>
-<span id="cb22-28"><a href="./#cb22-28" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx</span>
-<span id="cb22-29"><a href="./#cb22-29" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb22-30"><a href="./#cb22-30" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb22-31"><a href="./#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-32"><a href="./#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="ot">blogDetailCtx ::</span> <span class="dt">Tags</span> <span class="ot">-&gt;</span> <span class="dt">Tags</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> <span class="dt">String</span></span>
-<span id="cb22-33"><a href="./#cb22-33" aria-hidden="true" tabindex="-1"></a>blogDetailCtx categories tags <span class="ot">=</span> </span>
-<span id="cb22-34"><a href="./#cb22-34" aria-hidden="true" tabindex="-1"></a>   dateField <span class="st">&quot;date&quot;</span> <span class="st">&quot;%B %e, %Y&quot;</span>                 <span class="op">&lt;&gt;</span></span>
-<span id="cb22-35"><a href="./#cb22-35" aria-hidden="true" tabindex="-1"></a>   mapContext dropFileName (urlField <span class="st">&quot;url&quot;</span>)     <span class="op">&lt;&gt;</span></span>
-<span id="cb22-36"><a href="./#cb22-36" aria-hidden="true" tabindex="-1"></a>   categoryField' <span class="st">&quot;category&quot;</span> categories         <span class="op">&lt;&gt;</span></span>
-<span id="cb22-37"><a href="./#cb22-37" aria-hidden="true" tabindex="-1"></a>   tagsField' <span class="st">&quot;tags&quot;</span> tags                       <span class="op">&lt;&gt;</span> <span class="co">-- tags to context</span></span>
-<span id="cb22-38"><a href="./#cb22-38" aria-hidden="true" tabindex="-1"></a>   field <span class="st">&quot;pages.next.url&quot;</span> nextBlog              <span class="op">&lt;&gt;</span></span>
-<span id="cb22-39"><a href="./#cb22-39" aria-hidden="true" tabindex="-1"></a>   field <span class="st">&quot;pages.previous.url&quot;</span> previousBlog      <span class="op">&lt;&gt;</span></span>
-<span id="cb22-40"><a href="./#cb22-40" aria-hidden="true" tabindex="-1"></a>   summaryField <span class="st">&quot;summary&quot;</span>                       <span class="op">&lt;&gt;</span></span>
-<span id="cb22-41"><a href="./#cb22-41" aria-hidden="true" tabindex="-1"></a>   teaserField  <span class="st">&quot;summary&quot;</span> blogSnapshot          <span class="op">&lt;&gt;</span> </span>
-<span id="cb22-42"><a href="./#cb22-42" aria-hidden="true" tabindex="-1"></a>   previewField <span class="st">&quot;summary&quot;</span> blogSnapshot          <span class="op">&lt;&gt;</span> </span>
-<span id="cb22-43"><a href="./#cb22-43" aria-hidden="true" tabindex="-1"></a>   readingTimeField <span class="st">&quot;reading.time&quot;</span> blogSnapshot <span class="op">&lt;&gt;</span></span>
-<span id="cb22-44"><a href="./#cb22-44" aria-hidden="true" tabindex="-1"></a>   defaultCtx</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>Tags can be rendered in a standard way using <code>renderTags</code>, as a tag cloud using <code>renderTagCloud</code> or in a custom way using <code>tagsFieldWith</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="./#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ot">tagsField' ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tags</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> a </span>
-<span id="cb23-2"><a href="./#cb23-2" aria-hidden="true" tabindex="-1"></a>tagsField' <span class="ot">=</span> </span>
-<span id="cb23-3"><a href="./#cb23-3" aria-hidden="true" tabindex="-1"></a>   tagsFieldWith getTags (renderLink <span class="st">&quot;#&quot;</span>) (<span class="fu">mconcat</span> <span class="op">.</span> intersperse <span class="st">&quot; &quot;</span>)</span>
-<span id="cb23-4"><a href="./#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="./#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ot">renderLink ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> (<span class="dt">Maybe</span> <span class="dt">FilePath</span>) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">H.Html</span></span>
-<span id="cb23-6"><a href="./#cb23-6" aria-hidden="true" tabindex="-1"></a>renderLink _ _   <span class="dt">Nothing</span>       <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb23-7"><a href="./#cb23-7" aria-hidden="true" tabindex="-1"></a>renderLink pre text (<span class="dt">Just</span> url) <span class="ot">=</span></span>
-<span id="cb23-8"><a href="./#cb23-8" aria-hidden="true" tabindex="-1"></a>   <span class="dt">Just</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb23-9"><a href="./#cb23-9" aria-hidden="true" tabindex="-1"></a>      toHtml pre</span>
-<span id="cb23-10"><a href="./#cb23-10" aria-hidden="true" tabindex="-1"></a>      H.a <span class="op">!</span> href (toValue <span class="op">$</span> toUrl url) <span class="op">$</span> toHtml text</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h1 data-number="4" id="rolling-your-own"><span class="header-section-number">4</span> Rolling your own</h1>
 <h2 data-number="4.1" id="collecting-rules-in-the-rules-monad"><span class="header-section-number">4.1</span> Collecting rules in the Rules monad</h2>
 <p>The compiler rules live inside the <code>Rules</code> monad which is an instance of the <code>MonadMetadata</code> type class which enables monads to retrive the <code>Metadata</code> of the source file identified by the <code>Identifier</code>. <code>Metadata</code> is a wrapper around a YAML object with <a href="https://www.stackage.org/haddock/lts-16.10/hakyll-4.13.4.0/Hakyll-Core-Metadata.html">functions</a> to lookup it’s values as either strings or lists of strings.</p>
@@ -504,19 +302,7 @@ becomes
 <span id="cb26-29"><a href="./#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="ot">loadAll ::</span> (<span class="dt">Binary</span> a, <span class="dt">Typeable</span> a) <span class="ot">=&gt;</span> <span class="dt">Pattern</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> [<span class="dt">Item</span> a]</span></code></pre></div>
 <h2 data-number="4.4" id="snapshots-to-define-a-pipeline-stage"><span class="header-section-number">4.4</span> Snapshots to define a pipeline stage</h2>
 <p>When loading a compiled resource it usually has the base layout templates applied to it making it unusable in dynamic lists. Snapshots are the solution to that problem. During the compiler construction a snapshot of the resource can be saved in middle of the pipeline allowing you to later <code>load</code> that stage of the compiled resource.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="./#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- blogs</span></span>
-<span id="cb27-2"><a href="./#cb27-2" aria-hidden="true" tabindex="-1"></a>match allPattern <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb27-3"><a href="./#cb27-3" aria-hidden="true" tabindex="-1"></a>   route   <span class="op">$</span> blogRoute</span>
-<span id="cb27-4"><a href="./#cb27-4" aria-hidden="true" tabindex="-1"></a>   compile <span class="op">$</span> blogCompiler</span>
-<span id="cb27-5"><a href="./#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> saveSnapshot blogSnapshot <span class="co">-- saving a Snapshot before templates are applied</span></span>
-<span id="cb27-6"><a href="./#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/blog-detail.html&quot;</span> (blogDetailCtx categories tags)</span>
-<span id="cb27-7"><a href="./#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/default.html&quot;</span> defaultCtx</span>
-<span id="cb27-8"><a href="./#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> indexCompiler</span>
-<span id="cb27-9"><a href="./#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;&gt;=</span> relativizeUrls</span>
-<span id="cb27-10"><a href="./#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="./#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="ot">loadBlogs ::</span> <span class="dt">Pattern</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> [<span class="dt">Item</span> <span class="dt">String</span>]</span>
-<span id="cb27-12"><a href="./#cb27-12" aria-hidden="true" tabindex="-1"></a>loadBlogs <span class="ot">=</span> </span>
-<span id="cb27-13"><a href="./#cb27-13" aria-hidden="true" tabindex="-1"></a>   recentFirst <span class="op">&lt;=&lt;</span> <span class="fu">flip</span> loadAllSnapshots blogSnapshot <span class="co">-- load blog items using a Snapshot</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 data-number="4.5" id="working-with-contexts-and-templates"><span class="header-section-number">4.5</span> Working with contexts and templates</h2>
 <p>Contexts define variables which can be accessed and interpolated in a template. There are three ways to define a <code>Context</code>.</p>
 <ol type="1">
@@ -524,74 +310,9 @@ becomes
 <li>Use field functions, e.g. <code>field</code>, <code>constField</code> or <code>listField</code>.</li>
 <li>Derive a new context from another context using <code>mapContext</code>.</li>
 </ol>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="./#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">ContextField</span></span>
-<span id="cb28-2"><a href="./#cb28-2" aria-hidden="true" tabindex="-1"></a>   <span class="ot">=</span> <span class="dt">StringField</span> <span class="dt">String</span></span>
-<span id="cb28-3"><a href="./#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="op">|</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">ListField</span> (<span class="dt">Context</span> a) [<span class="dt">Item</span> a]</span>
-<span id="cb28-4"><a href="./#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="./#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- Context data constructor wraps a function which takes a key (variable name), </span></span>
-<span id="cb28-6"><a href="./#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- a list of arguments (for function fields), an item and returns a ContextField</span></span>
-<span id="cb28-7"><a href="./#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- in the Compiler monad</span></span>
-<span id="cb28-8"><a href="./#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">newtype</span> <span class="dt">Context</span> a <span class="ot">=</span> <span class="dt">Context</span></span>
-<span id="cb28-9"><a href="./#cb28-9" aria-hidden="true" tabindex="-1"></a>   {<span class="ot"> unContext ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> <span class="dt">Item</span> a <span class="ot">-&gt;</span> <span class="dt">Compiler</span> <span class="dt">ContextField</span></span>
-<span id="cb28-10"><a href="./#cb28-10" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb28-11"><a href="./#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="./#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Semigroup</span> (<span class="dt">Context</span> a)</span>
-<span id="cb28-13"><a href="./#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Monoid</span> (<span class="dt">Context</span> a) <span class="kw">where</span></span>
-<span id="cb28-14"><a href="./#cb28-14" aria-hidden="true" tabindex="-1"></a>   <span class="co">-- mempty is basically empty from Alternative</span></span>
-<span id="cb28-15"><a href="./#cb28-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mempty</span>                          <span class="ot">=</span> missingField </span>
-<span id="cb28-16"><a href="./#cb28-16" aria-hidden="true" tabindex="-1"></a>   <span class="co">-- mappend is &lt;|&gt; from Alternative</span></span>
-<span id="cb28-17"><a href="./#cb28-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mappend</span> (<span class="dt">Context</span> f) (<span class="dt">Context</span> g) <span class="ot">=</span> <span class="dt">Context</span> <span class="op">$</span> \k a i <span class="ot">-&gt;</span> f k a i <span class="op">&lt;|&gt;</span> g k a i </span>
-<span id="cb28-18"><a href="./#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-19"><a href="./#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co">-- field takes a key and a function that constructs a value based on the item </span></span>
-<span id="cb28-20"><a href="./#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co">-- (e.g. accessing metadata) and returns a new context.</span></span>
-<span id="cb28-21"><a href="./#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="ot">field ::</span> <span class="dt">String</span>	<span class="ot">-&gt;</span> (<span class="dt">Item</span> a <span class="ot">-&gt;</span> <span class="dt">Compiler</span> <span class="dt">String</span>)<span class="ot">-&gt;</span> <span class="dt">Context</span> a	 </span>
-<span id="cb28-22"><a href="./#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-23"><a href="./#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co">-- constField takes a key and a constant value and returns a context</span></span>
-<span id="cb28-24"><a href="./#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="ot">constField ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> a</span>
-<span id="cb28-25"><a href="./#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-26"><a href="./#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="co">-- listField takes a string, a context to be applied inside a </span></span>
-<span id="cb28-27"><a href="./#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="co">-- $for(..)$ expression, and the items to iterate over.</span></span>
-<span id="cb28-28"><a href="./#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="ot">listField ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> a <span class="ot">-&gt;</span> <span class="dt">Compiler</span> [<span class="dt">Item</span> a] <span class="ot">-&gt;</span> <span class="dt">Context</span> b</span>
-<span id="cb28-29"><a href="./#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-30"><a href="./#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="co">-- mapContext takes a function, a context and returns a new context</span></span>
-<span id="cb28-31"><a href="./#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="co">-- with all field values transformed.</span></span>
-<span id="cb28-32"><a href="./#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="ot">mapContext ::</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="ot">-&gt;</span> <span class="dt">Context</span> a <span class="ot">-&gt;</span> <span class="dt">Context</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>The <code>Context</code> data constructor is rarely used but necessary if the the context needs to be able to return <code>mempty</code> which is implimented as a failing <code>Compiler</code>. In the <code>Compiler</code> monad failure can be signalled with <code>empty</code>, <code>noResult</code> or <code>throwError</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="./#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- aliasContext maps a new key to another key. If the other key</span></span>
-<span id="cb29-2"><a href="./#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- is not defined or returns empty the alias returns empty.</span></span>
-<span id="cb29-3"><a href="./#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ot">aliasContext ::</span> (<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="ot">-&gt;</span> <span class="dt">Context</span> a <span class="ot">-&gt;</span> <span class="dt">Context</span> a</span>
-<span id="cb29-4"><a href="./#cb29-4" aria-hidden="true" tabindex="-1"></a>aliasContext f (<span class="dt">Context</span> c) <span class="ot">=</span> </span>
-<span id="cb29-5"><a href="./#cb29-5" aria-hidden="true" tabindex="-1"></a>   <span class="dt">Context</span> <span class="op">$</span> \k a i <span class="ot">-&gt;</span> c (f k) a i <span class="op">&lt;|&gt;</span> c' k <span class="co">-- Compiler implements Alternative</span></span>
-<span id="cb29-6"><a href="./#cb29-6" aria-hidden="true" tabindex="-1"></a>   <span class="kw">where</span> </span>
-<span id="cb29-7"><a href="./#cb29-7" aria-hidden="true" tabindex="-1"></a>      c' k <span class="ot">=</span> noResult <span class="op">$</span> <span class="fu">unwords</span> [<span class="st">&quot;Tried to alias&quot;</span>, k, <span class="st">&quot;as&quot;</span>, f k, <span class="st">&quot;which doesn't exist&quot;</span>]</span>
-<span id="cb29-8"><a href="./#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="./#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="ot">readingTimeField ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Snapshot</span> <span class="ot">-&gt;</span> <span class="dt">Context</span> <span class="dt">String</span></span>
-<span id="cb29-10"><a href="./#cb29-10" aria-hidden="true" tabindex="-1"></a>readingTimeField key snapshot <span class="ot">=</span> </span>
-<span id="cb29-11"><a href="./#cb29-11" aria-hidden="true" tabindex="-1"></a>   field key calculate <span class="co">-- calculate :: Item String -&gt; Compiler String</span></span>
-<span id="cb29-12"><a href="./#cb29-12" aria-hidden="true" tabindex="-1"></a>   <span class="kw">where</span></span>
-<span id="cb29-13"><a href="./#cb29-13" aria-hidden="true" tabindex="-1"></a>      calculate item <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb29-14"><a href="./#cb29-14" aria-hidden="true" tabindex="-1"></a>         body <span class="ot">&lt;-</span> loadSnapshotBody (itemIdentifier item) snapshot</span>
-<span id="cb29-15"><a href="./#cb29-15" aria-hidden="true" tabindex="-1"></a>         <span class="fu">return</span> <span class="op">$</span> withTagList acc body</span>
-<span id="cb29-16"><a href="./#cb29-16" aria-hidden="true" tabindex="-1"></a>      acc ts <span class="ot">=</span> [<span class="dt">TagText</span> (<span class="fu">show</span> (time ts))]</span>
-<span id="cb29-17"><a href="./#cb29-17" aria-hidden="true" tabindex="-1"></a>      time ts <span class="ot">=</span> foldl' count <span class="dv">0</span>  ts <span class="ot">`div`</span> <span class="dv">265</span></span>
-<span id="cb29-18"><a href="./#cb29-18" aria-hidden="true" tabindex="-1"></a>      count n (<span class="dt">TagText</span> s) <span class="ot">=</span> n <span class="op">+</span> <span class="fu">length</span> (<span class="fu">words</span> s)</span>
-<span id="cb29-19"><a href="./#cb29-19" aria-hidden="true" tabindex="-1"></a>      count n _           <span class="ot">=</span> n</span>
-<span id="cb29-20"><a href="./#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-21"><a href="./#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="ot">decksDetailCtx ::</span> <span class="dt">Context</span> <span class="dt">String</span></span>
-<span id="cb29-22"><a href="./#cb29-22" aria-hidden="true" tabindex="-1"></a>decksDetailCtx <span class="ot">=</span> </span>
-<span id="cb29-23"><a href="./#cb29-23" aria-hidden="true" tabindex="-1"></a>   dateField <span class="st">&quot;date&quot;</span> <span class="st">&quot;%B %e, %Y&quot;</span>             <span class="op">&lt;&gt;</span></span>
-<span id="cb29-24"><a href="./#cb29-24" aria-hidden="true" tabindex="-1"></a>   mapContext dropFileName (urlField <span class="st">&quot;url&quot;</span>) <span class="op">&lt;&gt;</span> <span class="co">-- drops the file name from the urlField</span></span>
-<span id="cb29-25"><a href="./#cb29-25" aria-hidden="true" tabindex="-1"></a>   defaultCtx                               <span class="op">&lt;&gt;</span></span>
-<span id="cb29-26"><a href="./#cb29-26" aria-hidden="true" tabindex="-1"></a>   constField <span class="st">&quot;theme&quot;</span> <span class="st">&quot;black&quot;</span></span>
-<span id="cb29-27"><a href="./#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-28"><a href="./#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="co">-- fail with an error message</span></span>
-<span id="cb29-29"><a href="./#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="ot">noResult ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> a</span>
-<span id="cb29-30"><a href="./#cb29-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-31"><a href="./#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="co">-- empty is the identity of &lt;|&gt;</span></span>
-<span id="cb29-32"><a href="./#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="ot">empty ::</span> <span class="dt">Alternative</span> f <span class="ot">=&gt;</span> f a</span>
-<span id="cb29-33"><a href="./#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-34"><a href="./#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="co">-- throwError used within a monadic computation begins exception processing</span></span>
-<span id="cb29-35"><a href="./#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="ot">throwError ::</span> <span class="dt">Monad</span> m, <span class="dt">MonadError</span> e m <span class="op">|</span> m <span class="ot">-&gt;</span> e <span class="ot">=&gt;</span> e <span class="ot">-&gt;</span> m a</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
@@ -637,7 +358,7 @@ becomes
         <link rel="stylesheet" href="../../../katex/katex.min.css">
         <script defer src="../../../katex/katex.min.js"></script>
         <script type="text/javascript" script defer src="../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
-        <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{" token": "34ef3e95246e4624a453ecfcaa8b2efa" }"></script><!-- End Cloudflare Web Analytics -->
+        <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{" token": "34ef3e95246e4624a453ecfcaa8b2efa" }"></script><!-- End Cloudflare Web Analytics -->
     </body>
 </html>
             

@@ -61,7 +61,7 @@
                         <time datetime="August 20, 2014">August 20, 2014</time>
                     </p>
                     <p class="c-article__meta">
-                        2 min read
+                        1 min read
                     </p>
                 </header>
 
@@ -70,10 +70,7 @@
 <p>Never the less the <a href="https://github.com/haskoin/haskoin/graphs/contributors">authors</a> of <a href="http://hackage.haskell.org/package/haskoin">Haskoin</a> have done a remarkable job implementing a Bitcoin library in Haskell from scratch — this includes most (if not all) the low-level <a href="http://hackage.haskell.org/package/haskoin-0.1.0.2/docs/Network-Haskoin-Crypto.html">elliptic curve cryptography</a> functionality. They are distributing the library with a public domain license but their aim is to build a <a href="http://haskoin.com/">commercial wallet service</a> on top of the library. Please consider signing up for their service to show them your support.</p>
 <p>Now I will show you how to create a sandboxed environment for your Bitcoin projects. This will reduce the risk of dependency conflicts (a.k.a. dependency hell) by installing a sandboxed version of all the dependencies independent of other projects. Later we will see how we can share a sandbox between different Bitcoin projects. We will also likely require the bleeding edge development version of Haskoin pulled from <a href="https://github.com/haskoin/haskoin">GitHub</a> and in due time I’ll show you how to link the development version to your sandboxed project.</p>
 <p>In Haskell packages and dependencies are published to <a href="http://hackage.haskell.org/">Hackage</a> and managed by <a href="http://www.haskell.org/cabal/">Cabal</a> and since version 1.18 it has included support for sandboxed environments.</p>
-<pre><code>$ mkdir test-haskoin
-$ cd test-haskoin
-$ cabal sandbox init    [1]
-$ cabal update          [2]</code></pre>
+<pre><code></code></pre>
 <p><small>[1] Initializes the sandbox and stores files in .cabal-sandbox</small><br />
 <small>[2] Download the package index from Hackage</small></p>
 <blockquote>
@@ -81,11 +78,9 @@ $ cabal update          [2]</code></pre>
 </blockquote>
 <p><del>Under normal circumstances we would be able to add Haskoin as a dependency in our <code>.cabal</code> file but since Haskoin depends on the <code>C</code> <code>icu</code> library which is sometimes installed outside the default <code>C</code> library locations (like <code>/usr/local/opt</code>) we either need to include the library location in the <code>.cabal</code> file or install the library manually with the extra command line parameters <code>--extra-include-dirs</code> and <code>--extra-lib-dirs</code>.</del></p>
 <p><del>On an <em>OS X</em> it is easiest to install the library using <code>brew</code> but please refer to the <a href="http://site.icu-project.org/download/"><em>icu download page</em></a> for installation instructions for your operating system of choice.</del></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh strikethrough"><code class="sourceCode bash"><span id="cb2-1"><a href="./#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> brew install icu4c</span>
-<span id="cb2-2"><a href="./#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cabal install <span class="at">--extra-include-dirs</span><span class="op">=</span>/usr/local/opt/icu4c/include <span class="dt">\</span></span>
-<span id="cb2-3"><a href="./#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">--extra-lib-dirs</span><span class="op">=</span>/usr/local/opt/icu4c/lib text-icu</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh strikethrough"><code class="sourceCode bash"></code></pre></div>
 <p>Next we cabalize our <code>test-haskell</code> project.</p>
-<pre><code>$ cabal init</code></pre>
+<pre><code></code></pre>
 <p>This takes us to a project wizard. Answering the questions is relatively straight forward. The resulting project file — <code>test-haskell.cabal</code> — describes the project and its dependencies.</p>
 <p>Add Haskoin as a dependency to the <code>.cabal</code> file.</p>
 <pre><code>build-depends:       base &gt;=4.6 &amp;&amp; &lt;4.7, haskoin ==0.1.0.*</code></pre>
@@ -97,10 +92,7 @@ $ cabal update          [2]</code></pre>
 <span id="cb6-3"><a href="./#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
 <span id="cb6-4"><a href="./#cb6-4" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;If this prints we're all done :)&quot;</span></span></code></pre></div>
 <p>The last step is to install the dependencies, compile the project and hopefully see our achievement printed to <code>stdout</code>.</p>
-<pre><code>$ cabal configure
-$ cabal install --dependencies-only
-$ cabal build
-$ cabal run</code></pre>
+<pre><code></code></pre>
 <p>Actually, running <code>cabal run</code> will usually be enough as it will trigger the install and build events automatically.</p>
 <p>In my <a href="../../../2014/10/receiving-bitcoins/">next</a> post in this series we will experiment with our sandboxed, cabalized Haskoin environment.</p>
                 </section>
@@ -142,7 +134,7 @@ $ cabal run</code></pre>
         <link rel="stylesheet" href="../../../katex/katex.min.css">
         <script defer src="../../../katex/katex.min.js"></script>
         <script type="text/javascript" script defer src="../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
-        <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{" token": "34ef3e95246e4624a453ecfcaa8b2efa" }"></script><!-- End Cloudflare Web Analytics -->
+        <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{" token": "34ef3e95246e4624a453ecfcaa8b2efa" }"></script><!-- End Cloudflare Web Analytics -->
     </body>
 </html>
             
