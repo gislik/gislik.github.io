@@ -41,7 +41,7 @@
         <link rel="alternate" type="application/atom+xml" title="Network programming in Haskell" href="../../../atom.xml">
     </head>
     <body>
-        <a href="./#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
         <header class="profile">
             <a class="profile-icon" href="../../../">
                 <img src="../../../icon72x72.png" alt="profile picture">
@@ -75,16 +75,16 @@
 <p>If you care about your code being able to run on Windows care must be taken to initialize the Windows network stack.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>And POSIX based systems will send the <a href="http://en.wikipedia.org/wiki/SIGPIPE#SIGPIPE">SIGPIPE</a> signal when trying to write to a closed socket. The default behaviour when a SIGPIPE is received is to terminate the program silently, which can be somewhat confusing if you haven’t encountered this before. Although it is highly unlikely to happen in such a simple network server I am including it for future reference.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="./#cb3-1" aria-hidden="true" tabindex="-1"></a>    installHandler sigPIPE <span class="dt">Ignore</span> <span class="dt">Nothing</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="../../../2012/12/network-programming-in-haskell/%23cb3-1" aria-hidden="true" tabindex="-1"></a>    installHandler sigPIPE <span class="dt">Ignore</span> <span class="dt">Nothing</span></span></code></pre></div>
 <p>The <a href="http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#v:bracket">bracket</a> function is suitable when a computation needs to acquire a resource and release it after the computation.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <p>The <code>acceptConnection</code> function begins by performing an IO action by calling <a href="http://hackage.haskell.org/packages/archive/network/latest/doc/html/Network.html#v:accept">accept</a> which blocks the execution until a client connects to the socket at which time the action will return a 3-tuple containing a (<a href="http://hackage.haskell.org/packages/archive/base/4.6.0.0/doc/html/GHC-IO-Handle.html#t:Handle">Handle</a>, <a href="http://hackage.haskell.org/packages/archive/network/latest/doc/html/Network.html#t:HostName">HostName</a>, <a href="http://hackage.haskell.org/packages/archive/network/latest/doc/html/Network.html#t:PortNumber">PortNumber</a>). In this simple case we neither need the host name nor the port number of the client so we will prevent them from being captured by using the underscore (_).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="./#cb5-1" aria-hidden="true" tabindex="-1"></a>acceptConnection socket handler <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb5-2"><a href="./#cb5-2" aria-hidden="true" tabindex="-1"></a>(h,_,_) <span class="ot">&lt;-</span> accept socket</span>
-<span id="cb5-3"><a href="./#cb5-3" aria-hidden="true" tabindex="-1"></a>    forkIO (handler h)</span>
-<span id="cb5-4"><a href="./#cb5-4" aria-hidden="true" tabindex="-1"></a>    acceptConnection socket handler</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="../../../2012/12/network-programming-in-haskell/%23cb5-1" aria-hidden="true" tabindex="-1"></a>acceptConnection socket handler <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-2"><a href="../../../2012/12/network-programming-in-haskell/%23cb5-2" aria-hidden="true" tabindex="-1"></a>(h,_,_) <span class="ot">&lt;-</span> accept socket</span>
+<span id="cb5-3"><a href="../../../2012/12/network-programming-in-haskell/%23cb5-3" aria-hidden="true" tabindex="-1"></a>    forkIO (handler h)</span>
+<span id="cb5-4"><a href="../../../2012/12/network-programming-in-haskell/%23cb5-4" aria-hidden="true" tabindex="-1"></a>    acceptConnection socket handler</span></code></pre></div>
 <p>One thing to note about the handle <code>h</code> returned from <code>accept</code> is block-buffered by default. For an interactive application you may want to set the buffering mode on the <code>Handle</code> to <a href="http://hackage.haskell.org/packages/archive/base/4.6.0.0/doc/html/GHC-IO-Handle.html#v:LineBuffering">LineBuffering</a> or <a href="http://hackage.haskell.org/packages/archive/base/4.6.0.0/doc/html/GHC-IO-Handle.html#v:NoBuffering">NoBuffering</a>, like so:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="./#cb6-1" aria-hidden="true" tabindex="-1"></a>    hSetBuffering h <span class="dt">LineBuffering</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="../../../2012/12/network-programming-in-haskell/%23cb6-1" aria-hidden="true" tabindex="-1"></a>    hSetBuffering h <span class="dt">LineBuffering</span></span></code></pre></div>
 <p>The request is handled in a new thread for concurrency. It’s worth mentioning that Haskell forks so-called <a href="http://en.wikipedia.org/wiki/Green_threads">green threads</a> which are much lighter than normal OS threads and forking <a href="http://stackoverflow.com/questions/5847642/haskell-lightweight-threads-overhead-and-use-on-multicores">hundreds of thousands</a> or even <a href="http://stackoverflow.com/questions/1900165/how-long-does-it-take-to-create-1-million-threads-in-haskell">millions</a> is very doable. This way we don’t need to be concerned with <a href="http://en.wikipedia.org/wiki/Thread_pool_pattern">thread pools</a> even for highly concurrent servers.</p>
 <p>With recursion at the last line of <code>acceptConnection</code> we make sure the server continues to serve new clients after serving the first one.</p>
 <p>I always find it best to compile multi-threaded Haskell code with the (<code>-threaded</code>) command parameter which makes sure that if my code is linked to a C code with foreign function interface you don’t lose concurrency.</p>
@@ -96,8 +96,8 @@
 
                 <section>
                     <p>
-                        @<a href="../../../code/">code</a> 
-                        #<a href="../../../tags/haskell/">haskell</a> 
+                        @<a href="../../../code/index.html">code</a> 
+                        #<a href="../../../tags/haskell/index.html">haskell</a> 
                     </p>
                     <p>
                     </p>
@@ -107,11 +107,11 @@
                     <nav class="c-pagination p-pagination">
                         <div class="c-pagination__ctrl">
                             <div class="c-pagination__newer">
-                                <a href="../../../2014/08/bitcoin-from-a-developers-perspective/">Newer</a>
+                                <a href="../../../2014/08/bitcoin-from-a-developers-perspective/index.html">Newer</a>
                                 
                             </div>
                             <div class="c-pagination__older">
-                                <a href="../../../2010/02/optical-mouse-scanner-location-awareness/">Older</a>
+                                <a href="../../../2010/02/optical-mouse-scanner-location-awareness/index.html">Older</a>
                                 
                             </div>
                         </div>
@@ -131,7 +131,7 @@
         <link rel="stylesheet" href="../../../katex/katex.min.css">
         <script defer src="../../../katex/katex.min.js"></script>
         <script type="text/javascript" script defer src="../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
-        <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{" token": "34ef3e95246e4624a453ecfcaa8b2efa" }"></script><!-- End Cloudflare Web Analytics -->
+        <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{"token": "34ef3e95246e4624a453ecfcaa8b2efa"}"></script><!-- End Cloudflare Web Analytics -->
     </body>
 </html>
             
