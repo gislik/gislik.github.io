@@ -64,6 +64,18 @@
             
             <article class="c-article p-list-article">
                 <header>
+                    <h2 class="c-title c-article__title"><a href="../../2026/09/construction-by-composition/">Construction by composition</a></h2>
+                    <p class="c-article__meta">
+                        <time datetime="September  1, 2026">September  1, 2026</time> @<a href="../../code/index.html">code</a> #<a href="../../tags/haskell/index.html">haskell</a> 
+                    </p>
+                </header>
+                <section class="c-article__summary">
+                    <p>In mathematics, functions are composable because  for a given input they  are guaranteed to return the same output. By composing simple functions, complex behavior can be modeled in a way that is straight forward to reason about. In most programming languages however, functions do not compose well because they can perform arbitrary side-effects. Haskell takes a completely different approach by separating pure and impure functions in the type system.. </p>
+                </section>
+            </article>
+            
+            <article class="c-article p-list-article">
+                <header>
                     <h2 class="c-title c-article__title"><a href="../../2020/08/my-personal-hakyll-cheatsheet/">My personal Hakyll cheatsheet</a></h2>
                     <p class="c-article__meta">
                         <time datetime="August 20, 2020">August 20, 2020</time> @<a href="../../code/index.html">code</a> #<a href="../../tags/haskell/index.html">haskell</a> 
@@ -97,20 +109,6 @@
                     <p>At work we use <a href="http://clojure.org">Clojure</a> as our primary implementation language. I wrote a <a href="http://appvise.me/2011/03/why-we-are-choosing-clojure-as-our-main-programming-language/">blog post</a> about the decision which got a lot of attention from the <a href="http://news.ycombinator.com/item?id=2350381">Hacker News</a> community. While we are extremely happy with our decision we have started to deploy some <a href="http://www.haskell.org/">Haskell</a> code on some low memory VPS we deploy.</p>
 <p>Some of the machines we deploy are 256M and 512M instances and with multiple instances of the JVM the machines start swapping to disk sooner or later. The other day we needed a simple way to forward all HTTP traffic received by our DNS servers to our website. It seemed like the perfect project to introduce Haskell since the code is independent of everything else and extremely simple; just output a <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection">HTTP 301 redirect</a> response no matter what was received on the socket.</p>
 <p>The resulting code is as close to a networking skeleton written in Haskell which I hope others will benefit from when starting a Haskell project involving network communication.
-
-                </section>
-            </article>
-            
-            <article class="c-article p-list-article">
-                <header>
-                    <h2 class="c-title c-article__title"><a href="../../2009/10/from-happs-to-happstack/">From HAppS to Happstack</a></h2>
-                    <p class="c-article__meta">
-                        <time datetime="October 13, 2009">October 13, 2009</time> @<a href="../../code/index.html">code</a> #<a href="../../tags/haskell/index.html">haskell</a> 
-                    </p>
-                </header>
-                <section class="c-article__summary">
-                    <p>
-I have been dreading porting my Blog application from <em>HAppS</em> to <a href="../../2009/10/from-happs-to-happstack/happstack.com"><em>Happstack</em></a> for a long time now. It is however apparent that <em>HAppS</em> is dying and <em>Happstack</em> (a fork of <em>HAppS</em> designed to take things further) was the only way to roll.
 
                 </section>
             </article>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Enable responsiveness on mobile devices-->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" /> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+        <title>Gisli | Construction by composition</title>
+
+        <meta property="og:url" content="https://gisli.hamstur.is/2026/09/construction-by-composition/" />
+        <meta property="og:site_name" content="Gísli | Construction by composition" />
+        <meta property="og:title" content="Gísli | Construction by composition" />
+        <meta property="og:description" content="<![CDATA[In mathematics, functions are composable because  for a given input they  are guaranteed to return the same output. By composing simple functions, complex behavior can be modeled in a way that is straight forward to reason about. In most programming languages however, functions do not compose well because they can perform arbitrary side-effects. Haskell takes a completely different approach by separating pure and impure functions in the type system.. ]]>" />
+        <meta name="description" content="<![CDATA[In mathematics, functions are composable because  for a given input they  are guaranteed to return the same output. By composing simple functions, complex behavior can be modeled in a way that is straight forward to reason about. In most programming languages however, functions do not compose well because they can perform arbitrary side-effects. Haskell takes a completely different approach by separating pure and impure functions in the type system.. ]]>" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@gislik" />
+        
+
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="../../../css/base.css" />
+        <link rel="stylesheet" href="../../../css/custom.css" />
+        <link rel="stylesheet" href="../../../css/syntax/kate.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Rock+Salt&display=swap" rel="stylesheet">
+        <link href="../../../css/fontawesome/fontawesome.css" rel="stylesheet">
+        <link href="../../../css/fontawesome/brands.css" rel="stylesheet">
+        <link href="../../../css/fontawesome/solid.css" rel="stylesheet">
+
+        <link rel="icon" type="image/x-icon" href="../../../icon48x48.png" />
+        <link rel="apple-touch-icon" sizes="48x48" href="../../../icon48x48.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../../icon72x72.png" />
+        <link rel="apple-touch-icon" sizes="96x96" href="../../../icon96x96.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../../icon144x144.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="../../../icon192x192.png" />
+        <!-- <link rel="apple-touch-icon" sizes="256x256" href="" /> -->
+        <!-- <link rel="apple-touch-icon" sizes="384x384" href="" /> -->
+        <!-- <link rel="apple-touch-icon" sizes="512x512" href="" /> -->
+
+        <link rel="alternate" type="application/atom+xml" title="Construction by composition" href="../../../atom.xml">
+    </head>
+    <body>
+        <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+        <header class="profile">
+            <a class="profile-icon" href="../../../">
+                <img src="../../../icon72x72.png" alt="profile picture">
+            </a>
+            <nav class="header">
+                <a href="../../../about/">About</a>
+                <a href="../../../decks/">Decks</a>
+            </nav>
+        </header>
+
+        <main id="main" class="l-main">
+            <article class="p-article">
+
+                <header>
+                    <h2 class="c-title c-article__title">Construction by composition</h2>
+                    <p class="c-article__meta">
+                        <time datetime="September  1, 2026">September  1, 2026</time>
+                    </p>
+                    <p class="c-article__meta">
+                        2 min read
+                    </p>
+                </header>
+
+                <section id="js-article" class="c-article__body">
+<p>In mathematics, functions are composable because for a given input they are guaranteed to return the same output. By composing simple functions, complex behavior can be modeled in a way that is straight forward to reason about. In most programming languages however, functions do not compose well because they can perform arbitrary side-effects, like reading the system clock, possibly resulting in different outputs for the same input.</p>
+<p>For this reason many functions are hard to test, hard to reuse, and a source of unexpected bugs. Take for example the <a href="https://download.java.net/java/early_access/jdk28/docs/api/java.base/java/net/URL.html#equals(java.lang.Object)"><code>equals</code></a> method of the <code>URL</code> class in Java.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="../../../2026/09/construction-by-composition/%23cb1-1" aria-hidden="true" tabindex="-1"></a>public boolean <span class="fu">equals</span><span class="op">(</span>Object obj<span class="op">)</span></span></code></pre></div>
+<p>Judging from the function signature it would be reasonable to assume that two URLs can be compared for equality without much thinking. Reading through the <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/net/URL.html#equals(java.lang.Object)">function documentation</a>, we learn that the function for some reason tries to resolve the hostnames to IP addresses which is a blocking operation. Furthermore, in certain circumstances the behaviour of <code>equals</code> is even inconsistent with the documentation. Imagine trying to hunt down a bug deep in a production system that originates from the unintended domain name resolution while comparing URLs. It is understandable why complex systems are generally not built by composing poorly behaving functions.</p>
+<p>Functions that do not perform any side-effects are called pure functions. They are not allowed to depend on global variables, read or write files, open network sockets, throw exceptions or do anything that breaks the assumption that for a given input they always return the same output. From a developer’s perspective that makes them composable but useless for interacting with the real world. Like we saw earlier it can be challenging to differentiate between pure and impure functions, which further reduces their usefulness as reusable building blocks.</p>
+<blockquote>
+<p>The result is that functions are mostly used for control flow and as a method to break the program into smaller units.</p>
+</blockquote>
+<p>Haskell takes a completely different approach. All regular functions are pure and are composed by using the composition function <code>(.)</code>. If <code>f</code> is a function that maps inputs from <code>a</code> to <code>b</code>, and <code>g</code> maps inputs from <code>b</code> to <code>c</code>, then function <code>h</code> maps inputs from <code>a</code> to <code>c</code> by first applying <code>f</code> and then <code>g</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="../../../2026/09/construction-by-composition/%23cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">f ::</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb2-2"><a href="../../../2026/09/construction-by-composition/%23cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">g ::</span> b <span class="ot">-&gt;</span> c</span>
+<span id="cb2-3"><a href="../../../2026/09/construction-by-composition/%23cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="../../../2026/09/construction-by-composition/%23cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">h ::</span> a <span class="ot">-&gt;</span> c</span>
+<span id="cb2-5"><a href="../../../2026/09/construction-by-composition/%23cb2-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> g <span class="op">.</span> f</span></code></pre></div>
+<p>Any function that may perform side-effects must be tagged with <code>IO</code> in the return type. Consider <code>getLine</code> that reads a string from the standard input and returns it or <code>putStrLn</code> that prints a string to the standard output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="../../../2026/09/construction-by-composition/%23cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getLine</span><span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb3-2"><a href="../../../2026/09/construction-by-composition/%23cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">putStrLn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span></code></pre></div>
+<p>The complexity is not gone but rather made explicit in the type system and by encouraging the use of pure functions whenever possible the surface area of unintended side-effects is dramatically reduced.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="../../../2026/09/construction-by-composition/%23cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLn</span><span class="ot"> ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb4-2"><a href="../../../2026/09/construction-by-composition/%23cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLn</span> b <span class="ot">=</span> </span>
+<span id="cb4-3"><a href="../../../2026/09/construction-by-composition/%23cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">if</span> b </span>
+<span id="cb4-4"><a href="../../../2026/09/construction-by-composition/%23cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">then</span> <span class="fu">getLine</span> </span>
+<span id="cb4-5"><a href="../../../2026/09/construction-by-composition/%23cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span> <span class="fu">return</span> <span class="st">&quot;boolean is false&quot;</span></span></code></pre></div>
+<p>Much like pure functions, functions tagged with <code>IO</code> in the return type can be composed using Kleisli composition <code>(&lt;=&lt;)</code>. Therefore <code>IO</code> tagged functions are ideal building blocks for more complex programs in Haskell.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="../../../2026/09/construction-by-composition/%23cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">echo ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb5-2"><a href="../../../2026/09/construction-by-composition/%23cb5-2" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="op">&lt;=&lt;</span> <span class="fu">readLn</span></span></code></pre></div>
+                </section>
+
+                <section>
+                    <p>
+                        @<a href="../../../code/index.html">code</a> 
+                        #<a href="../../../tags/haskell/index.html">haskell</a> 
+                    </p>
+                    <p>
+                    </p>
+                </section>
+
+                <footer>
+                    <nav class="c-pagination p-pagination">
+                        <div class="c-pagination__ctrl">
+                            <div class="c-pagination__newer">
+                                
+                            </div>
+                            <div class="c-pagination__older">
+                                <a href="../../../2022/06/grein-um-rafmyntir/index.html">Older</a>
+                                
+                            </div>
+                        </div>
+                    </nav>
+                </footer>
+
+            </article>
+
+        </main>
+
+        <footer class="l-footer">
+            <p class="p-copyright">
+                Copyright <i class="fas fa-heart" style="color: red;"></i> Gísli Kristjánsson 2026
+            </p>
+        </footer>
+
+        <link rel="stylesheet" href="../../../katex/katex.min.css">
+        <script defer src="../../../katex/katex.min.js"></script>
+        <script type="text/javascript" script defer src="../../../katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+        <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{"token": "34ef3e95246e4624a453ecfcaa8b2efa"}"></script><!-- End Cloudflare Web Analytics -->
+    </body>
+</html>
+            

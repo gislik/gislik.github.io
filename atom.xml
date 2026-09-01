@@ -11,8 +11,16 @@
         <email>gislik@hamstur.is</email>
         
     </author>
-    <updated>2021-10-26T00:00:00Z</updated>
+    <updated>2026-09-01T00:00:00Z</updated>
     <entry>
+    <title><![CDATA[Construction by composition]]></title>
+    <link href="https://gisli.hamstur.is/2026/09/construction-by-composition/" />
+    <id>https://gisli.hamstur.is/2026/09/construction-by-composition/</id>
+    <published>2026-09-01T00:00:00Z</published>
+    <updated>2026-09-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[In mathematics, functions are composable because  for a given input they  are guaranteed to return the same output. By composing simple functions, complex behavior can be modeled in a way that is straight forward to reason about. In most programming languages however, functions do not compose well because they can perform arbitrary side-effects. Haskell takes a completely different approach by separating pure and impure functions in the type system.. ]]></summary>
+</entry>
+<entry>
     <title><![CDATA[A super gentle introduction to zero-knowledge proofs 🍄]]></title>
     <link href="https://gisli.hamstur.is/2021/10/gentle-intro-to-zero-knowledge-proofs/" />
     <id>https://gisli.hamstur.is/2021/10/gentle-intro-to-zero-knowledge-proofs/</id>
